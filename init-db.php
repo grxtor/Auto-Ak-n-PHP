@@ -379,6 +379,13 @@ try {
     foreach ($categories as [$name,$slug,$icon,$order]) { $stmtCat->execute([$name,$slug,$icon,$order]); }
     logMsg("12 kategori eklendi");
 
+    // Admin Kullanicisi
+    $adminUser = 'admin';
+    $adminPass = password_hash('admin123', PASSWORD_DEFAULT);
+    $stmtAdmin = $db->prepare('INSERT IGNORE INTO admins (username, password_hash) VALUES (?, ?)');
+    $stmtAdmin->execute([$adminUser, $adminPass]);
+    logMsg("Varsayilan admin kullanicisi olusturuldu (admin / admin123)");
+
     // Site Ayarlari
     $settings = [
         ['site_name', 'Auto Akin'],
