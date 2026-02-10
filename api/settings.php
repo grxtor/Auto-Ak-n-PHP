@@ -2,6 +2,7 @@
 // Site ayarlarini getir (public)
 header('Content-Type: application/json; charset=utf-8');
 require_once __DIR__ . '/../config/db.php';
+$db = getDB();
 
 try {
     $stmt = $db->query('SELECT setting_key, setting_value FROM settings');

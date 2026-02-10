@@ -2,6 +2,7 @@
 // Musteri kayit / giris / profil API
 header('Content-Type: application/json; charset=utf-8');
 require_once __DIR__ . '/../config/db.php';
+$db = getDB();
 session_start();
 
 $method = $_SERVER['REQUEST_METHOD'];

@@ -21,6 +21,8 @@ RewriteCond %{REQUEST_FILENAME}.php -f
 RewriteRule ^(.+)$ $1.php [L,QSA]
 
 # Eğer .php ile erişilirse, .php olmadan yönlendir (SEO temiz URL)
+# API isteklerini muaf tut (POST isteklerinin bozulmaması için)
+RewriteCond %{REQUEST_URI} !^/api/
 RewriteCond %{THE_REQUEST} /([^.]+)\.php [NC]
 RewriteRule ^ /%1 [NC,L,R=301]
 

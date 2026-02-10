@@ -1,5 +1,6 @@
 <?php
 require_once __DIR__ . '/../config/db.php';
+$db = getDB();
 header('Content-Type: application/json; charset=utf-8');
 session_start();
 
