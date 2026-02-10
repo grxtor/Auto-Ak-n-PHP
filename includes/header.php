@@ -54,6 +54,39 @@
     </nav>
 
     <script>
+    // Cart helper
+    const Cart = {
+        get() { 
+            try { return JSON.parse(localStorage.getItem('autoakin_cart') || '[]'); } 
+            catch(e) { return []; } 
+        },
+        set(items) { localStorage.setItem('autoakin_cart', JSON.stringify(items)); this.updateBadge(); },
+        add(product) {
+            let items = this.get();
+            const idx = items.findIndex(i => i.id === product.id);
+            if (idx > -1) items[idx].quantity++;
+            else items.push({ ...product, quantity: 1 });
+            this.set(items);
+        },
+        remove(id) { this.set(this.get().filter(i => i.id !== id)); },
+        updateQty(id, qty) {
+            let items = this.get();
+            const idx = items.findIndex(i => i.id === id);
+            if (idx > -1) { items[idx].quantity = Math.max(1, qty); this.set(items); }
+        },
+        count() { return this.get().reduce((sum, i) => sum + i.quantity, 0); },
+        total() { return this.get().reduce((sum, i) => sum + (i.price * i.quantity), 0); },
+        clear() { this.set([]); },
+        updateBadge() {
+            const badge = document.getElementById('nav-cart-count');
+            if (!badge) return;
+            const c = this.count();
+            badge.textContent = c;
+            badge.style.display = c > 0 ? 'flex' : 'none';
+        }
+    };
+    document.addEventListener('DOMContentLoaded', () => Cart.updateBadge());
+
     // Site ayarlarını yükle
     let SiteSettings = {};
     fetch('/api/settings.php').then(r=>r.json()).then(s => {

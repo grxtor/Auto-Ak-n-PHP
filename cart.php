@@ -104,51 +104,68 @@ include 'includes/header.php';
 let lastOrderCode = null;
 
 function renderCart() {
-    const items = Cart.get();
-    if (items.length === 0) {
-        document.getElementById('cartEmpty').style.display = 'block';
-        document.getElementById('cartContent').style.display = 'none';
-        return;
-    }
-    document.getElementById('cartEmpty').style.display = 'none';
-    document.getElementById('cartContent').style.display = 'grid';
+    try {
+        if (typeof Cart === 'undefined') {
+            console.error('Cart object is not loaded yet');
+            return;
+        }
+        const items = Cart.get();
+        if (!Array.isArray(items) || items.length === 0) {
+            document.getElementById('cartEmpty').style.display = 'block';
+            document.getElementById('cartContent').style.display = 'none';
+            return;
+        }
+        document.getElementById('cartEmpty').style.display = 'none';
+        document.getElementById('cartContent').style.display = 'grid';
 
-    document.getElementById('cartItems').innerHTML = items.map(item => `
-        <div class="cart-item">
-            <div class="thumb">
-                ${item.image_url ? `<img src="${item.image_url}" alt="${item.name}">` : '<div style="font-size:1.5rem;color:var(--gray-300)">&#128230;</div>'}
-            </div>
-            <div style="flex:1">
-                <h3 style="font-size:0.95rem;font-weight:700">${item.name}</h3>
-                <div style="font-size:1rem;font-weight:800;margin:4px 0">&#8378;${(item.price*item.quantity).toLocaleString('tr-TR',{minimumFractionDigits:2})}</div>
-                <div style="display:flex;align-items:center;gap:8px;margin-top:6px">
-                    <button class="btn-outline btn-xs" onclick="changeQty(${item.id},-1)">&minus;</button>
-                    <span style="font-weight:600;font-size:0.85rem">${item.quantity}</span>
-                    <button class="btn-outline btn-xs" onclick="changeQty(${item.id},1)">+</button>
-                    <button style="border:none;background:none;color:var(--primary);cursor:pointer;font-size:0.8rem;margin-left:auto" onclick="removeItem(${item.id})">Kald&#305;r</button>
+        document.getElementById('cartItems').innerHTML = items.map(item => `
+            <div class="cart-item">
+                <div class="thumb">
+                    ${item.image_url ? `<img src="${item.image_url}" alt="${item.name}">` : '<div style="font-size:1.5rem;color:var(--gray-300)">&#128230;</div>'}
+                </div>
+                <div style="flex:1">
+                    <h3 style="font-size:0.95rem;font-weight:700">${item.name || 'İsimsiz Ürün'}</h3>
+                    <div style="font-size:1rem;font-weight:800;margin:4px 0">&#8378;${((item.price || 0) * (item.quantity || 1)).toLocaleString('tr-TR',{minimumFractionDigits:2})}</div>
+                    <div style="display:flex;align-items:center;gap:8px;margin-top:6px">
+                        <button class="btn-outline btn-xs" onclick="changeQty(${item.id},-1)">&minus;</button>
+                        <span style="font-weight:600;font-size:0.85rem">${item.quantity}</span>
+                        <button class="btn-outline btn-xs" onclick="changeQty(${item.id},1)">+</button>
+                        <button style="border:none;background:none;color:var(--primary);cursor:pointer;font-size:0.8rem;margin-left:auto" onclick="removeItem(${item.id})">Kaldır</button>
+                    </div>
                 </div>
             </div>
-        </div>
-    `).join('');
+        `).join('');
 
-    const total = Cart.total();
-    document.getElementById('cartSubtotal').textContent = '\u20BA' + total.toLocaleString('tr-TR',{minimumFractionDigits:2});
-    document.getElementById('cartTotal').textContent = '\u20BA' + total.toLocaleString('tr-TR',{minimumFractionDigits:2});
-    
-    // Auth kontrolü ve form doldurma
-    setTimeout(() => {
-        if (window.CurrentUser) {
-            document.getElementById('authCheck').style.display = 'none';
-            document.getElementById('custName').value = window.CurrentUser.name;
-            document.getElementById('custEmail').value = window.CurrentUser.email;
-            document.getElementById('custPhone').value = window.CurrentUser.phone || '';
-            document.getElementById('custAddress').value = window.CurrentUser.address || '';
-            document.getElementById('saveAddrWrap').style.display = 'flex';
-        } else {
-            document.getElementById('authCheck').style.display = 'block';
-            document.getElementById('saveAddrWrap').style.display = 'none';
-        }
-    }, 500);
+        const total = Cart.total();
+        document.getElementById('cartSubtotal').textContent = '₺' + total.toLocaleString('tr-TR',{minimumFractionDigits:2});
+        document.getElementById('cartTotal').textContent = '₺' + total.toLocaleString('tr-TR',{minimumFractionDigits:2});
+        
+        // Auth kontrolü ve form doldurma
+        const fillForm = () => {
+            if (window.CurrentUser) {
+                const ac = document.getElementById('authCheck');
+                if(ac) ac.style.display = 'none';
+                if(document.getElementById('custName')) document.getElementById('custName').value = window.CurrentUser.name || '';
+                if(document.getElementById('custEmail')) document.getElementById('custEmail').value = window.CurrentUser.email || '';
+                if(document.getElementById('custPhone')) document.getElementById('custPhone').value = window.CurrentUser.phone || '';
+                if(document.getElementById('custAddress')) document.getElementById('custAddress').value = window.CurrentUser.address || '';
+                const saw = document.getElementById('saveAddrWrap');
+                if(saw) saw.style.display = 'flex';
+            } else if (document.getElementById('authCheck')) {
+                document.getElementById('authCheck').style.display = 'block';
+                const saw = document.getElementById('saveAddrWrap');
+                if(saw) saw.style.display = 'none';
+            }
+        };
+
+        fillForm();
+        // Bir de biraz sonra tekrar dene (auth fetch yavaşsa)
+        setTimeout(fillForm, 1000);
+
+    } catch (e) {
+        console.error('Render error:', e);
+        document.getElementById('cartContent').innerHTML = '<div style="padding:2rem;text-align:center;color:red">Sepet yüklenirken bir hata oluştu.</div>';
+    }
 }
 
 function changeQty(id, delta) {
@@ -239,7 +256,9 @@ function copyIBAN() {
     navigator.clipboard.writeText(iban).then(() => alert('IBAN kopyalandı!'));
 }
 
-renderCart();
+document.addEventListener('DOMContentLoaded', () => {
+    renderCart();
+});
 </script>
 
 <?php include 'includes/footer.php'; ?>
