@@ -8,8 +8,8 @@
                 <div>
                     <h4>Hızlı Linkler</h4>
                     <ul>
-                        <li><a href="/parts.php">Tüm Parçalar</a></li>
-                        <li><a href="/cart.php">Sepetim</a></li>
+                        <li><a href="/parts">Tüm Parçalar</a></li>
+                        <li><a href="/cart">Sepetim</a></li>
                     </ul>
                 </div>
                 <div>

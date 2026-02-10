@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+
+# Admin paneli indexlenmesin
+Disallow: /admin/
+Disallow: /api/
+Disallow: /config/
+Disallow: /init-db.php
+
+# Sitemap
+Sitemap: https://autoakin.com.tr/sitemap.xml

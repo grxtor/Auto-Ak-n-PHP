@@ -12,12 +12,12 @@
         <div class="container">
             <a href="/" class="logo">AUTO <span class="text-red">AKIN</span></a>
             <div class="nav-links">
-                <a href="/parts.php">Yedek Parça</a>
-                <a href="/cart.php" style="position:relative" id="nav-cart-link">
+                <a href="/parts">Yedek Parça</a>
+                <a href="/cart" style="position:relative" id="nav-cart-link">
                     Sepet
                     <span class="cart-badge" id="nav-cart-count" style="display:none">0</span>
                 </a>
-                <a href="/admin/login.php" class="btn-secondary btn-sm">Panel</a>
+                <a href="/admin/login" class="btn-secondary btn-sm">Panel</a>
             </div>
         </div>
     </nav>

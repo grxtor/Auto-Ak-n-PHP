@@ -8,14 +8,14 @@
     <style>.admin-nav{background:#0f172a;border-bottom:none;padding:0}.admin-nav .container{display:flex;justify-content:space-between;align-items:center;height:56px}.admin-nav .nav-right{display:flex;align-items:center;gap:1.5rem}.admin-nav .nav-link{color:#94a3b8;font-size:0.82rem;transition:color 0.2s;font-weight:500}.admin-nav .nav-link:hover{color:white}.admin-nav .nav-link.active{color:white}</style>
 </head>
 <body style="background:#f8fafc">
-    <nav class="navbar admin-nav"><div class="container"><a href="/admin/dashboard.php" class="logo" style="color:white;font-size:1.1rem">AUTO <span style="color:#ef4444">AKIN</span> <span style="font-size:0.6rem;color:#475569;background:#1e293b;padding:3px 8px;border-radius:4px;margin-left:6px">PANEL</span></a><div class="nav-right"><a href="/admin/dashboard.php" class="nav-link">Dashboard</a><a href="/admin/products.php" class="nav-link active">Urunler</a><a href="/admin/vehicles.php" class="nav-link">Araclar</a><a href="/admin/orders.php" class="nav-link">Siparisler</a><a href="/admin/messages.php" class="nav-link">Mesajlar</a><div style="width:1px;height:24px;background:#334155"></div><a href="/" target="_blank" class="nav-link">Siteyi Gor</a></div></div></nav>
+    <nav class="navbar admin-nav"><div class="container"><a href="/admin/dashboard" class="logo" style="color:white;font-size:1.1rem">AUTO <span style="color:#ef4444">AKIN</span> <span style="font-size:0.6rem;color:#475569;background:#1e293b;padding:3px 8px;border-radius:4px;margin-left:6px">PANEL</span></a><div class="nav-right"><a href="/admin/dashboard" class="nav-link">Dashboard</a><a href="/admin/products" class="nav-link active">Urunler</a><a href="/admin/vehicles" class="nav-link">Araclar</a><a href="/admin/orders" class="nav-link">Siparisler</a><a href="/admin/messages" class="nav-link">Mesajlar</a><div style="width:1px;height:24px;background:#334155"></div><a href="/" target="_blank" class="nav-link">Siteyi Gor</a></div></div></nav>
 
     <div class="container" style="padding-top:2rem;padding-bottom:3rem">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem">
             <h1 style="font-size:1.5rem;font-weight:800">Ürün <span class="text-red">Yönetimi</span></h1>
             <div style="display:flex;gap:8px">
                 <button class="btn-primary" id="toggleFormBtn" onclick="toggleForm()">+ Yeni Ürün</button>
-                <a href="/admin/dashboard.php" class="btn-outline btn-sm">← Dashboard</a>
+                <a href="/admin/dashboard" class="btn-outline btn-sm">← Dashboard</a>
             </div>
         </div>
 
@@ -60,7 +60,7 @@
     </div>
 
     <script>
-    if(!localStorage.getItem('admin_auth'))window.location='/admin/login.php';
+    if(!localStorage.getItem('admin_auth'))window.location='/admin/login';
 
     let selectedVariants = [];
 
@@ -70,7 +70,7 @@
     }
 
     function loadProducts() {
-        fetch('/api/admin/products.php').then(r=>r.json()).then(products => {
+        fetch('/api/admin/products').then(r=>r.json()).then(products => {
             document.getElementById('prodLoading').style.display='none';
             document.getElementById('prodTable').style.display='table';
             document.getElementById('prodBody').innerHTML = products.map(p => `
@@ -87,7 +87,7 @@
 
     function addProduct(e) {
         e.preventDefault();
-        fetch('/api/admin/products.php?action=add', {
+        fetch('/api/admin/products?action=add', {
             method:'POST', headers:{'Content-Type':'application/json'},
             body: JSON.stringify({
                 name: document.getElementById('pName').value,
@@ -107,7 +107,7 @@
 
     function deleteProduct(id) {
         if(!confirm('Bu ürünü silmek istediğinize emin misiniz?')) return;
-        fetch('/api/admin/products.php?id='+id,{method:'DELETE'}).then(()=>loadProducts());
+        fetch('/api/admin/products?id='+id,{method:'DELETE'}).then(()=>loadProducts());
     }
 
     function loadFormModels() {

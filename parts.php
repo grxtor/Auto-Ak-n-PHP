@@ -3,7 +3,7 @@ $pageTitle = 'Yedek Parçalar - Auto Akın';
 include 'includes/header.php';
 ?>
 
-<div class="container" style="padding-top:2rem;padding-bottom:3rem">
+<div class="container" style="padding-top:2rem;padding-bottom:3rem;flex:1">
     <h1 style="font-size:1.5rem;font-weight:800;margin-bottom:1.5rem">Yedek <span class="text-red">Parçalar</span></h1>
 
     <!-- Filtreler -->

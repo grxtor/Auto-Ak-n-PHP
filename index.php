@@ -23,7 +23,7 @@ include 'includes/header.php';
             </select>
             <button class="btn-primary" onclick="searchParts()" style="padding:12px 28px;font-size:0.9rem">Parça Ara</button>
         </div>
-        <div style="margin-top:1rem;color:#555;font-size:0.8rem">veya <a href="/parts.php" style="color:#ef4444;font-weight:600">tüm parçalara göz atın</a></div>
+        <div style="margin-top:1rem;color:#555;font-size:0.8rem">veya <a href="/parts" style="color:#ef4444;font-weight:600">tüm parçalara göz atın</a></div>
     </div>
 </section>
 
@@ -65,7 +65,7 @@ include 'includes/header.php';
 <section class="container" style="margin-top:2.5rem">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem">
         <h2 style="font-size:1.3rem;font-weight:800">Kategoriler</h2>
-        <a href="/parts.php" style="font-size:0.85rem;color:#dc2626;font-weight:600">Tümünü Gör →</a>
+        <a href="/parts" style="font-size:0.85rem;color:#dc2626;font-weight:600">Tümünü Gör →</a>
     </div>
     <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:10px" id="categoryGrid"></div>
 </section>
@@ -103,7 +103,7 @@ include 'includes/header.php';
 <section class="container" style="margin-top:2.5rem">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.25rem">
         <h2 style="font-size:1.3rem;font-weight:800">Son Eklenen <span style="color:#dc2626">Ürünler</span></h2>
-        <a href="/parts.php" style="font-size:0.85rem;color:#dc2626;font-weight:600">Tümünü Gör →</a>
+        <a href="/parts" style="font-size:0.85rem;color:#dc2626;font-weight:600">Tümünü Gör →</a>
     </div>
     <div class="product-grid" id="latestProducts"></div>
 </section>
@@ -185,13 +185,13 @@ function loadVariants(modelId, selectId) {
 }
 function searchParts() {
     const variant = document.getElementById('homeVariant').value;
-    if(variant) window.location.href='/parts.php?variant='+variant;
-    else window.location.href='/parts.php';
+    if(variant) window.location.href='/parts?variant='+variant;
+    else window.location.href='/parts';
 }
 function oemSearch(e) {
     e.preventDefault();
     const oem = document.getElementById('oemInput').value;
-    if(oem) window.location.href='/parts.php?search='+encodeURIComponent(oem);
+    if(oem) window.location.href='/parts?search='+encodeURIComponent(oem);
 }
 function selectHomeBrand(slug) {
     fetch('/api/brands.php').then(r=>r.json()).then(brands => {
@@ -210,7 +210,7 @@ const catIcons = {
 
 fetch('/api/categories.php').then(r=>r.json()).then(cats => {
     document.getElementById('categoryGrid').innerHTML = cats.map(c => `
-        <a href="/parts.php?category=${c.slug}">
+        <a href="/parts?category=${c.slug}">
             <div class="card" style="padding:1.25rem 0.75rem;text-align:center;transition:all 0.2s;cursor:pointer" onmouseover="this.style.borderColor='#dc2626'" onmouseout="this.style.borderColor='#e5e7eb'">
                 <div style="font-size:1.5rem;margin-bottom:0.5rem">${catIcons[c.slug]||'&#128230;'}</div>
                 <div style="font-size:0.78rem;font-weight:600">${c.name}</div>
@@ -239,7 +239,7 @@ fetch('/api/products.php').then(r=>r.json()).then(products => {
                     <div style="font-size:3rem;margin-bottom:1rem">&#128230;</div>
                     <h3 style="font-size:1rem;font-weight:700;margin-bottom:0.5rem">Henüz Ürün Eklenmemiş</h3>
                     <p style="font-size:0.85rem;color:var(--gray-500);margin-bottom:1rem">Admin panelden hızlıca ürün ekleyebilirsiniz.</p>
-                    <a href="/admin/login.php" class="btn-primary btn-sm">Admin Panele Git</a>
+                    <a href="/admin/login" class="btn-primary btn-sm">Admin Panele Git</a>
                 </div>
             </div>`;
         return;

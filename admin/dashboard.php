@@ -28,13 +28,13 @@
 <body>
 <nav class="navbar admin-nav">
     <div class="container">
-        <a href="/admin/dashboard.php" class="logo" style="color:white;font-size:1.1rem">AUTO <span style="color:#ef4444">AKIN</span> <span style="font-size:0.6rem;color:#475569;background:#1e293b;padding:3px 8px;border-radius:4px;margin-left:6px">PANEL</span></a>
+        <a href="/admin/dashboard" class="logo" style="color:white;font-size:1.1rem">AUTO <span style="color:#ef4444">AKIN</span> <span style="font-size:0.6rem;color:#475569;background:#1e293b;padding:3px 8px;border-radius:4px;margin-left:6px">PANEL</span></a>
         <div class="nav-right">
-            <a href="/admin/dashboard.php" class="nav-link" style="color:white">Dashboard</a>
-            <a href="/admin/products.php" class="nav-link">Urunler</a>
-            <a href="/admin/vehicles.php" class="nav-link">Araclar</a>
-            <a href="/admin/orders.php" class="nav-link">Siparisler</a>
-            <a href="/admin/messages.php" class="nav-link">Mesajlar</a>
+            <a href="/admin/dashboard" class="nav-link" style="color:white">Dashboard</a>
+            <a href="/admin/products" class="nav-link">Urunler</a>
+            <a href="/admin/vehicles" class="nav-link">Araclar</a>
+            <a href="/admin/orders" class="nav-link">Siparisler</a>
+            <a href="/admin/messages" class="nav-link">Mesajlar</a>
             <div style="width:1px;height:24px;background:#334155"></div>
             <a href="/" target="_blank" class="nav-link">Siteyi Gor</a>
             <button onclick="localStorage.removeItem('admin_auth');window.location='/'" style="border:1px solid #334155;background:transparent;color:#94a3b8;padding:5px 12px;border-radius:4px;font-size:0.78rem;cursor:pointer">Cikis</button>
@@ -61,13 +61,13 @@
         <div>
             <div class="card" style="margin-bottom:1.5rem">
                 <div class="section-header">Hizli Islemler</div>
-                <a href="/admin/products.php" class="qa"><div class="qa-icon" style="background:#fee2e2;color:#dc2626">P</div><div><div style="font-weight:700;font-size:0.88rem">Urun Yonetimi</div><div style="font-size:0.78rem;color:var(--gray-500)">Yedek parca ekle, duzenle, stok guncelle</div></div></a>
-                <a href="/admin/vehicles.php" class="qa"><div class="qa-icon" style="background:#dbeafe;color:#2563eb">A</div><div><div style="font-weight:700;font-size:0.88rem">Arac Yonetimi</div><div style="font-size:0.78rem;color:var(--gray-500)">Marka, model ve motor varyantlari yonet</div></div></a>
-                <a href="/admin/orders.php" class="qa"><div class="qa-icon" style="background:#fef3c7;color:#d97706">S</div><div><div style="font-weight:700;font-size:0.88rem">Siparis Takibi</div><div style="font-size:0.78rem;color:var(--gray-500)">IBAN odemelerini kontrol et</div></div></a>
-                <a href="/admin/messages.php" class="qa"><div class="qa-icon" style="background:#d1fae5;color:#059669">D</div><div><div style="font-weight:700;font-size:0.88rem">Canli Destek</div><div style="font-size:0.78rem;color:var(--gray-500)">Musteri mesajlarini yanitla</div></div></a>
+                <a href="/admin/products" class="qa"><div class="qa-icon" style="background:#fee2e2;color:#dc2626">P</div><div><div style="font-weight:700;font-size:0.88rem">Urun Yonetimi</div><div style="font-size:0.78rem;color:var(--gray-500)">Yedek parca ekle, duzenle, stok guncelle</div></div></a>
+                <a href="/admin/vehicles" class="qa"><div class="qa-icon" style="background:#dbeafe;color:#2563eb">A</div><div><div style="font-weight:700;font-size:0.88rem">Arac Yonetimi</div><div style="font-size:0.78rem;color:var(--gray-500)">Marka, model ve motor varyantlari yonet</div></div></a>
+                <a href="/admin/orders" class="qa"><div class="qa-icon" style="background:#fef3c7;color:#d97706">S</div><div><div style="font-weight:700;font-size:0.88rem">Siparis Takibi</div><div style="font-size:0.78rem;color:var(--gray-500)">IBAN odemelerini kontrol et</div></div></a>
+                <a href="/admin/messages" class="qa"><div class="qa-icon" style="background:#d1fae5;color:#059669">D</div><div><div style="font-weight:700;font-size:0.88rem">Canli Destek</div><div style="font-size:0.78rem;color:var(--gray-500)">Musteri mesajlarini yanitla</div></div></a>
             </div>
             <div class="card">
-                <div class="section-header">Son Siparisler <a href="/admin/orders.php" style="font-size:0.75rem;color:#dc2626;font-weight:600">Tumunu Gor</a></div>
+                <div class="section-header">Son Siparisler <a href="/admin/orders" style="font-size:0.75rem;color:#dc2626;font-weight:600">Tumunu Gor</a></div>
                 <div id="recentOrders"><div style="padding:3rem;text-align:center;color:var(--gray-500);font-size:0.85rem">Yukleniyor...</div></div>
             </div>
         </div>
@@ -91,7 +91,7 @@
                 <div id="quickAddResult" style="margin-top:8px;font-size:0.8rem;text-align:center;display:none"></div>
             </div>
             <div class="card">
-                <div class="section-header" style="font-size:0.85rem">Son Mesajlar <a href="/admin/messages.php" style="font-size:0.75rem;color:#dc2626;font-weight:600">Tumu</a></div>
+                <div class="section-header" style="font-size:0.85rem">Son Mesajlar <a href="/admin/messages" style="font-size:0.75rem;color:#dc2626;font-weight:600">Tumu</a></div>
                 <div id="recentMessages"><div style="padding:1.5rem;text-align:center;color:var(--gray-500);font-size:0.82rem">Yukleniyor...</div></div>
             </div>
         </div>
@@ -99,15 +99,15 @@
 </div>
 
 <script>
-if(!localStorage.getItem('admin_auth'))window.location='/admin/login.php';
+if(!localStorage.getItem('admin_auth'))window.location='/admin/login';
 document.getElementById('currentDate').textContent=new Date().toLocaleDateString('tr-TR',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
 var sM={pending:'badge-pending',verified:'badge-verified',shipped:'badge-shipped',delivered:'badge-delivered',cancelled:'badge-cancelled'};
 var sL={pending:'Beklemede',verified:'Onaylandi',shipped:'Kargoda',delivered:'Teslim',cancelled:'Iptal'};
-fetch('/api/admin/products.php').then(r=>r.json()).then(p=>document.getElementById('statProducts').textContent=Array.isArray(p)?p.length:0).catch(()=>document.getElementById('statProducts').textContent='0');
-fetch('/api/admin/orders.php').then(r=>r.json()).then(o=>{if(!Array.isArray(o)){document.getElementById('statOrders').textContent='0';document.getElementById('statPending').textContent='0';document.getElementById('recentOrders').innerHTML='<div style="padding:3rem;text-align:center;color:var(--gray-500)">Henuz siparis yok</div>';return;}document.getElementById('statOrders').textContent=o.length;document.getElementById('statPending').textContent=o.filter(x=>x.status==='pending').length;var r=o.slice(0,6);if(!r.length){document.getElementById('recentOrders').innerHTML='<div style="padding:3rem;text-align:center;color:var(--gray-500)">Henuz siparis yok</div>';return;}document.getElementById('recentOrders').innerHTML=r.map(x=>'<div class="order-row"><div><strong style="color:#dc2626">#AKN-'+x.id+'</strong> <span style="color:#6b7280">'+x.customer_name+'</span></div><div style="display:flex;align-items:center;gap:10px"><span style="font-weight:600">'+parseFloat(x.total_amount).toLocaleString('tr-TR')+'TL</span><span class="badge '+(sM[x.status]||'badge-pending')+'">'+(sL[x.status]||x.status)+'</span></div></div>').join('');}).catch(()=>{document.getElementById('statOrders').textContent='0';document.getElementById('statPending').textContent='0';});
-fetch('/api/admin/messages.php').then(r=>r.json()).then(m=>{if(!Array.isArray(m)){document.getElementById('statMessages').textContent='0';return;}var u=m.reduce((s,x)=>s+parseInt(x.unread_count||0),0);document.getElementById('statMessages').textContent=u;if(!m.length){document.getElementById('recentMessages').innerHTML='<div style="padding:1.5rem;text-align:center;color:var(--gray-500);font-size:0.82rem">Henuz mesaj yok</div>';return;}document.getElementById('recentMessages').innerHTML=m.slice(0,5).map(x=>'<div class="msg-row"><span style="font-weight:600">'+x.customer_identifier.substring(0,14)+'</span>'+(parseInt(x.unread_count)>0?'<span style="background:#dc2626;color:white;border-radius:50%;min-width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:700">'+x.unread_count+'</span>':'<span style="color:#059669;font-size:0.75rem">OK</span>')+'</div>').join('');}).catch(()=>document.getElementById('statMessages').textContent='0');
+fetch('/api/admin/products').then(r=>r.json()).then(p=>document.getElementById('statProducts').textContent=Array.isArray(p)?p.length:0).catch(()=>document.getElementById('statProducts').textContent='0');
+fetch('/api/admin/orders').then(r=>r.json()).then(o=>{if(!Array.isArray(o)){document.getElementById('statOrders').textContent='0';document.getElementById('statPending').textContent='0';document.getElementById('recentOrders').innerHTML='<div style="padding:3rem;text-align:center;color:var(--gray-500)">Henuz siparis yok</div>';return;}document.getElementById('statOrders').textContent=o.length;document.getElementById('statPending').textContent=o.filter(x=>x.status==='pending').length;var r=o.slice(0,6);if(!r.length){document.getElementById('recentOrders').innerHTML='<div style="padding:3rem;text-align:center;color:var(--gray-500)">Henuz siparis yok</div>';return;}document.getElementById('recentOrders').innerHTML=r.map(x=>'<div class="order-row"><div><strong style="color:#dc2626">#AKN-'+x.id+'</strong> <span style="color:#6b7280">'+x.customer_name+'</span></div><div style="display:flex;align-items:center;gap:10px"><span style="font-weight:600">'+parseFloat(x.total_amount).toLocaleString('tr-TR')+'TL</span><span class="badge '+(sM[x.status]||'badge-pending')+'">'+(sL[x.status]||x.status)+'</span></div></div>').join('');}).catch(()=>{document.getElementById('statOrders').textContent='0';document.getElementById('statPending').textContent='0';});
+fetch('/api/admin/messages').then(r=>r.json()).then(m=>{if(!Array.isArray(m)){document.getElementById('statMessages').textContent='0';return;}var u=m.reduce((s,x)=>s+parseInt(x.unread_count||0),0);document.getElementById('statMessages').textContent=u;if(!m.length){document.getElementById('recentMessages').innerHTML='<div style="padding:1.5rem;text-align:center;color:var(--gray-500);font-size:0.82rem">Henuz mesaj yok</div>';return;}document.getElementById('recentMessages').innerHTML=m.slice(0,5).map(x=>'<div class="msg-row"><span style="font-weight:600">'+x.customer_identifier.substring(0,14)+'</span>'+(parseInt(x.unread_count)>0?'<span style="background:#dc2626;color:white;border-radius:50%;min-width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:700">'+x.unread_count+'</span>':'<span style="color:#059669;font-size:0.75rem">OK</span>')+'</div>').join('');}).catch(()=>document.getElementById('statMessages').textContent='0');
 fetch('/api/categories.php').then(r=>r.json()).then(c=>{var s=document.getElementById('qCategory');c.forEach(x=>{var o=document.createElement('option');o.value=x.id;o.textContent=x.name;s.appendChild(o);});});
-function quickAdd(e){e.preventDefault();fetch('/api/admin/products.php?action=add',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:document.getElementById('qName').value,price:document.getElementById('qPrice').value,stock:document.getElementById('qStock').value,oem_no:document.getElementById('qOem').value,part_brand:document.getElementById('qBrand').value,category_id:document.getElementById('qCategory').value||null,description:'',image_url:'',variant_ids:[]})}).then(r=>r.json()).then(r=>{var el=document.getElementById('quickAddResult');if(r.success){el.textContent='Urun eklendi!';el.style.color='#059669';el.style.display='block';document.getElementById('qName').value='';document.getElementById('qPrice').value='';document.getElementById('qStock').value='';document.getElementById('qOem').value='';document.getElementById('qBrand').value='';fetch('/api/admin/products.php').then(r=>r.json()).then(p=>document.getElementById('statProducts').textContent=Array.isArray(p)?p.length:0);setTimeout(()=>el.style.display='none',3000);}else{el.textContent='Hata!';el.style.color='#dc2626';el.style.display='block';}});}
+function quickAdd(e){e.preventDefault();fetch('/api/admin/products?action=add',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:document.getElementById('qName').value,price:document.getElementById('qPrice').value,stock:document.getElementById('qStock').value,oem_no:document.getElementById('qOem').value,part_brand:document.getElementById('qBrand').value,category_id:document.getElementById('qCategory').value||null,description:'',image_url:'',variant_ids:[]})}).then(r=>r.json()).then(r=>{var el=document.getElementById('quickAddResult');if(r.success){el.textContent='Urun eklendi!';el.style.color='#059669';el.style.display='block';document.getElementById('qName').value='';document.getElementById('qPrice').value='';document.getElementById('qStock').value='';document.getElementById('qOem').value='';document.getElementById('qBrand').value='';fetch('/api/admin/products').then(r=>r.json()).then(p=>document.getElementById('statProducts').textContent=Array.isArray(p)?p.length:0);setTimeout(()=>el.style.display='none',3000);}else{el.textContent='Hata!';el.style.color='#dc2626';el.style.display='block';}});}
 </script>
 </body>
 </html>

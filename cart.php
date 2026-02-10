@@ -3,11 +3,14 @@ $pageTitle = 'Sepetim - Auto Akın';
 include 'includes/header.php';
 ?>
 
-<div class="container" style="padding-top:2rem;padding-bottom:3rem">
+<div class="container" style="padding-top:2rem;padding-bottom:3rem;flex:1">
     <h1 style="font-size:1.5rem;font-weight:800;margin-bottom:1.5rem">Sepetim</h1>
 
-    <div id="cartEmpty" style="text-align:center;padding:3rem;color:var(--gray-500);display:none">
-        Sepetiniz boş. <a href="/parts.php" class="text-red" style="font-weight:600">Alışverişe başlayın →</a>
+    <div id="cartEmpty" style="text-align:center;padding:4rem 2rem;display:none">
+        <div style="font-size:3rem;margin-bottom:1rem">&#128722;</div>
+        <h2 style="font-size:1.15rem;font-weight:700;margin-bottom:0.5rem">Sepetiniz bo&#351;</h2>
+        <p style="color:var(--gray-500);font-size:0.9rem;margin-bottom:1.5rem">Hen&uuml;z sepetinize &uuml;r&uuml;n eklemediniz.</p>
+        <a href="/parts" class="btn-primary" style="padding:12px 28px">&#128270; Par&ccedil;alara G&ouml;z At</a>
     </div>
 
     <div class="cart-grid" id="cartContent" style="display:none">
@@ -15,18 +18,18 @@ include 'includes/header.php';
             <div id="cartItems"></div>
         </div>
         <div class="cart-summary">
-            <h3 style="font-size:1rem;font-weight:700;margin-bottom:1rem">Sipariş Özeti</h3>
+            <h3 style="font-size:1rem;font-weight:700;margin-bottom:1rem">Sipari&#351; &Ouml;zeti</h3>
             <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--gray-100)">
                 <span style="color:var(--gray-500);font-size:0.9rem">Ara Toplam</span>
-                <span id="cartSubtotal" style="font-weight:600">₺0</span>
+                <span id="cartSubtotal" style="font-weight:600">&#8378;0</span>
             </div>
             <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--gray-100)">
                 <span style="color:var(--gray-500);font-size:0.9rem">Kargo</span>
-                <span style="font-weight:600;color:#059669">Ücretsiz</span>
+                <span style="font-weight:600;color:#059669">&Uuml;cretsiz</span>
             </div>
             <div style="display:flex;justify-content:space-between;padding:12px 0;font-size:1.1rem">
                 <span style="font-weight:800">Toplam</span>
-                <span id="cartTotal" style="font-weight:800;color:var(--primary)">₺0</span>
+                <span id="cartTotal" style="font-weight:800;color:var(--primary)">&#8378;0</span>
             </div>
 
             <hr style="border:none;border-top:1px solid var(--gray-200);margin:1rem 0">
@@ -39,29 +42,30 @@ include 'includes/header.php';
             </div>
 
             <div style="margin-top:1rem;padding:1rem;background:var(--gray-50);border-radius:var(--radius)">
-                <div style="font-weight:700;font-size:0.85rem;margin-bottom:4px">💳 IBAN ile Ödeme</div>
+                <div style="font-weight:700;font-size:0.85rem;margin-bottom:4px">&#128179; IBAN ile &Ouml;deme</div>
                 <div style="font-size:0.8rem;color:var(--gray-500)">
-                    Sipariş oluşturduktan sonra IBAN bilgileri görüntülenecektir.
+                    Sipari&#351; olu&#351;turduktan sonra IBAN bilgileri g&ouml;r&uuml;nt&uuml;lenecektir.
                 </div>
             </div>
 
-            <button class="btn-primary" style="width:100%;margin-top:1rem" onclick="placeOrder()">Siparişi Tamamla</button>
+            <button class="btn-primary" style="width:100%;margin-top:1rem" onclick="placeOrder()">Sipari&#351;i Tamamla</button>
         </div>
     </div>
 
     <!-- Sipariş Onay -->
     <div id="orderSuccess" style="display:none;text-align:center;padding:3rem">
-        <div style="font-size:2.5rem;margin-bottom:1rem">✅</div>
-        <h2 style="font-size:1.25rem;font-weight:800;margin-bottom:0.5rem">Siparişiniz Alındı!</h2>
-        <p style="color:var(--gray-500);margin-bottom:1.5rem">Sipariş numaranız: <strong id="orderNo" class="text-red"></strong></p>
+        <div style="font-size:2.5rem;margin-bottom:1rem">&#10004;</div>
+        <h2 style="font-size:1.25rem;font-weight:800;margin-bottom:0.5rem;color:#059669">Sipari&#351;iniz Al&#305;nd&#305;!</h2>
+        <p style="color:var(--gray-500);margin-bottom:1.5rem">Sipari&#351; numaran&#305;z: <strong id="orderNo" class="text-red"></strong></p>
         <div class="card" style="max-width:400px;margin:0 auto;padding:1.5rem;text-align:left">
             <h4 style="font-size:0.9rem;font-weight:700;margin-bottom:0.5rem">IBAN Bilgileri</h4>
-            <p style="font-size:0.85rem;color:var(--gray-500);margin-bottom:0.5rem">Aşağıdaki hesaba havale/EFT yapınız:</p>
+            <p style="font-size:0.85rem;color:var(--gray-500);margin-bottom:0.5rem">A&#351;a&#287;&#305;daki hesaba havale/EFT yap&#305;n&#305;z:</p>
             <div style="padding:0.75rem;background:var(--gray-50);border-radius:var(--radius);font-family:monospace;font-size:0.85rem">
                 TR00 0000 0000 0000 0000 0000 00
             </div>
-            <p style="font-size:0.8rem;color:var(--gray-500);margin-top:0.5rem">Açıklama: <strong id="orderRef"></strong></p>
+            <p style="font-size:0.8rem;color:var(--gray-500);margin-top:0.5rem">A&ccedil;&#305;klama: <strong id="orderRef"></strong></p>
         </div>
+        <a href="/parts" class="btn-outline" style="margin-top:1.5rem;display:inline-flex">Al&#305;&#351;veri&#351;e Devam Et</a>
     </div>
 </div>
 
@@ -79,24 +83,25 @@ function renderCart() {
     document.getElementById('cartItems').innerHTML = items.map(item => `
         <div class="cart-item">
             <div class="thumb">
-                ${item.image_url ? `<img src="${item.image_url}" alt="${item.name}">` : '📦'}
+                ${item.image_url ? `<img src="${item.image_url}" alt="${item.name}">` : '<div style="font-size:1.5rem;color:var(--gray-300)">&#128230;</div>'}
             </div>
             <div style="flex:1">
                 <h3 style="font-size:0.95rem;font-weight:700">${item.name}</h3>
-                <div style="font-size:1rem;font-weight:800;margin:4px 0">₺${(item.price*item.quantity).toLocaleString('tr-TR',{minimumFractionDigits:2})}</div>
+                ${item.oem_no ? `<div style="font-size:0.75rem;color:var(--gray-500)">OEM: ${item.oem_no}</div>` : ''}
+                <div style="font-size:1rem;font-weight:800;margin:4px 0">&#8378;${(item.price*item.quantity).toLocaleString('tr-TR',{minimumFractionDigits:2})}</div>
                 <div style="display:flex;align-items:center;gap:8px;margin-top:6px">
-                    <button class="btn-outline btn-xs" onclick="changeQty(${item.id},-1)">−</button>
+                    <button class="btn-outline btn-xs" onclick="changeQty(${item.id},-1)">&minus;</button>
                     <span style="font-weight:600;font-size:0.85rem">${item.quantity}</span>
                     <button class="btn-outline btn-xs" onclick="changeQty(${item.id},1)">+</button>
-                    <button style="border:none;background:none;color:var(--primary);cursor:pointer;font-size:0.8rem;margin-left:auto" onclick="removeItem(${item.id})">Kaldır</button>
+                    <button style="border:none;background:none;color:var(--primary);cursor:pointer;font-size:0.8rem;margin-left:auto" onclick="removeItem(${item.id})">Kald&#305;r</button>
                 </div>
             </div>
         </div>
     `).join('');
 
     const total = Cart.total();
-    document.getElementById('cartSubtotal').textContent = '₺' + total.toLocaleString('tr-TR',{minimumFractionDigits:2});
-    document.getElementById('cartTotal').textContent = '₺' + total.toLocaleString('tr-TR',{minimumFractionDigits:2});
+    document.getElementById('cartSubtotal').textContent = '\u20BA' + total.toLocaleString('tr-TR',{minimumFractionDigits:2});
+    document.getElementById('cartTotal').textContent = '\u20BA' + total.toLocaleString('tr-TR',{minimumFractionDigits:2});
 }
 function changeQty(id, delta) {
     const items = Cart.get();

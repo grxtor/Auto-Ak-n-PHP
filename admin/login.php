@@ -36,7 +36,7 @@
         // Basit admin login (üretimde hash+db kontrolü yapılmalı)
         if (user === 'admin' && pass === 'admin123') {
             localStorage.setItem('admin_auth', 'true');
-            window.location.href = '/admin/dashboard.php';
+            window.location.href = '/admin/dashboard';
         } else {
             const el = document.getElementById('loginError');
             el.textContent = 'Kullanıcı adı veya şifre hatalı.';
