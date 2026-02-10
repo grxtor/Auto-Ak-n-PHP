@@ -41,7 +41,7 @@ try {
     // Eski tabloları sil
     echo "<br>Eski tablolar siliniyor...<br>";
     $db->exec("SET FOREIGN_KEY_CHECKS = 0");
-    $drops = ['order_items','product_compatibility','messages','admins','orders','products','categories','variants','models','brands'];
+    $drops = ['order_items','product_compatibility','messages','admins','orders','customers','products','categories','variants','models','brands','settings'];
     foreach ($drops as $t) {
         $db->exec("DROP TABLE IF EXISTS $t");
     }
@@ -121,6 +121,8 @@ try {
 
         'orders' => "CREATE TABLE IF NOT EXISTS orders (
             id INT AUTO_INCREMENT PRIMARY KEY,
+            order_code VARCHAR(20) NOT NULL UNIQUE,
+            customer_id INT NULL,
             customer_name VARCHAR(255) NOT NULL,
             customer_email VARCHAR(255) NOT NULL,
             customer_phone VARCHAR(50),
@@ -128,9 +130,10 @@ try {
             total_amount DECIMAL(10,2) NOT NULL,
             status VARCHAR(20) DEFAULT 'pending',
             payment_method VARCHAR(50) DEFAULT 'IBAN',
-            iban_ref_no VARCHAR(100),
+            receipt_url VARCHAR(512),
             notes TEXT,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (customer_id) REFERENCES customers(id) ON DELETE SET NULL
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
 
         'order_items' => "CREATE TABLE IF NOT EXISTS order_items (
@@ -156,6 +159,24 @@ try {
             sender VARCHAR(20) NOT NULL,
             message TEXT NOT NULL,
             is_read TINYINT(1) DEFAULT 0,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+
+        'settings' => "CREATE TABLE IF NOT EXISTS settings (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            setting_key VARCHAR(100) NOT NULL UNIQUE,
+            setting_value TEXT,
+            updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
+
+        'customers' => "CREATE TABLE IF NOT EXISTS customers (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            name VARCHAR(255) NOT NULL,
+            email VARCHAR(255) NOT NULL UNIQUE,
+            password_hash VARCHAR(255) NOT NULL,
+            phone VARCHAR(50),
+            address TEXT,
+            save_address TINYINT(1) DEFAULT 1,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci",
     ];
@@ -358,7 +379,23 @@ try {
     foreach ($categories as [$name,$slug,$icon,$order]) { $stmtCat->execute([$name,$slug,$icon,$order]); }
     logMsg("12 kategori eklendi");
 
-    echo "<br>🎉 <strong>VERİTABANI BAŞARIYLA KURULDU!</strong><br>";
+    // Site Ayarlari
+    $settings = [
+        ['site_name', 'Auto Akin'],
+        ['site_email', 'info@autoakin.com'],
+        ['site_phone', '+90 5xx xxx xx xx'],
+        ['site_whatsapp', '+90 5xx xxx xx xx'],
+        ['iban', 'TR45 0004 6001 5988 8000 1908 12'],
+        ['iban_holder', 'Auto Akin Otomotiv'],
+        ['iban_bank', 'Akbank'],
+        ['shipping_note', '14:00 oncesi siparisler ayni gun kargoya verilir'],
+        ['min_order', '0'],
+    ];
+    $stmtSet = $db->prepare('INSERT INTO settings (setting_key, setting_value) VALUES (?, ?)');
+    foreach ($settings as [$k,$v]) { $stmtSet->execute([$k,$v]); }
+    logMsg(count($settings) . " site ayari eklendi");
+
+    echo "<br>&#10004; <strong>VERITABANI BASARIYLA KURULDU!</strong><br>";
     file_put_contents($lockFile, date('Y-m-d H:i:s'));
 
 } catch (Exception $e) {

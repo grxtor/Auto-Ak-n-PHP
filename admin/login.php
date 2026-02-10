@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="/assets/css/style.css">
 </head>
 <body>
-    <div style="min-height:100vh;display:flex;align-items:center;justify-content:center;background:var(--gray-50)">
+    <div style="min-height:100vh;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#0f172a,#1e293b)">
         <div class="card" style="padding:2.5rem;width:100%;max-width:380px">
             <h1 style="text-align:center;font-size:1.25rem;font-weight:800;margin-bottom:1.5rem">
                 AUTO <span class="text-red">AKIN</span>
@@ -22,26 +22,47 @@
                     <label class="form-label">Şifre</label>
                     <input class="form-input" type="password" id="password" required>
                 </div>
-                <button type="submit" class="btn-primary" style="width:100%">Giriş Yap</button>
+                <button type="submit" class="btn-primary" style="width:100%" id="loginBtn">Giriş Yap</button>
             </form>
             <div id="loginError" style="color:var(--primary);font-size:0.8rem;text-align:center;margin-top:1rem;display:none"></div>
         </div>
     </div>
 
     <script>
+    // Sayfa acildiginda session kontrol et
+    fetch('/api/admin/auth.php').then(r=>r.json()).then(r => {
+        if (r.loggedIn) window.location.href = '/admin/dashboard';
+    });
+
     function handleLogin(e) {
         e.preventDefault();
-        const user = document.getElementById('username').value;
-        const pass = document.getElementById('password').value;
-        // Basit admin login (üretimde hash+db kontrolü yapılmalı)
-        if (user === 'admin' && pass === 'admin123') {
-            localStorage.setItem('admin_auth', 'true');
-            window.location.href = '/admin/dashboard';
-        } else {
-            const el = document.getElementById('loginError');
-            el.textContent = 'Kullanıcı adı veya şifre hatalı.';
-            el.style.display = 'block';
-        }
+        const btn = document.getElementById('loginBtn');
+        btn.disabled = true; btn.textContent = 'Giriş yapılıyor...';
+        
+        fetch('/api/admin/auth.php', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                username: document.getElementById('username').value,
+                password: document.getElementById('password').value
+            })
+        })
+        .then(r => r.json())
+        .then(r => {
+            if (r.success) {
+                // localStorage'ı da set et (uyumluluk)
+                localStorage.setItem('admin_auth', 'true');
+                window.location.href = '/admin/dashboard';
+            } else {
+                const el = document.getElementById('loginError');
+                el.textContent = r.error || 'Giriş başarısız.';
+                el.style.display = 'block';
+                btn.disabled = false; btn.textContent = 'Giriş Yap';
+            }
+        })
+        .catch(() => {
+            btn.disabled = false; btn.textContent = 'Giriş Yap';
+        });
     }
     </script>
 </body>
