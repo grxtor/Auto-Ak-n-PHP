@@ -34,7 +34,7 @@
             <a href="/admin/products" class="nav-link">Urunler</a>
             <a href="/admin/vehicles" class="nav-link">Araclar</a>
             <a href="/admin/orders" class="nav-link">Siparisler</a>
-            <a href="/admin/messages" class="nav-link">Mesajlar</a>
+            <a href="/admin/messages" class="nav-link">Mesajlar</a><a href="/admin/customers" class="nav-link">Musteriler</a><a href="/admin/admins" class="nav-link">Adminler</a>
             <div style="width:1px;height:24px;background:#334155"></div>
             <a href="/" target="_blank" class="nav-link">Siteyi Gor</a>
             <button onclick="adminLogout()" style="border:1px solid #334155;background:transparent;color:#94a3b8;padding:5px 12px;border-radius:4px;font-size:0.78rem;cursor:pointer">Cikis</button>
