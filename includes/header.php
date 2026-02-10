@@ -6,18 +6,96 @@
     <title><?= $pageTitle ?? 'Auto Akın - Yedek Parça' ?></title>
     <meta name="description" content="<?= $pageDesc ?? 'Auto Akın - Otomotiv yedek parça dünyasında güvenilir adresiniz.' ?>">
     <link rel="stylesheet" href="/assets/css/style.css">
+    <style>
+        #userMenu { position: relative; }
+        .user-dropdown {
+            position: absolute; right: 0; top: 100%; 
+            background: white; border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            min-width: 180px; display: none; z-index: 1000; padding: 0.5rem 0;
+            margin-top: 0.5rem; border: 1px solid var(--gray-100);
+        }
+        .user-dropdown a, .user-dropdown button {
+            display: block; width: 100%; text-align: left; padding: 0.6rem 1rem;
+            font-size: 0.85rem; color: var(--foreground); transition: background 0.2s;
+            border: none; background: none; cursor: pointer; text-decoration: none;
+        }
+        .user-dropdown a:hover, .user-dropdown button:hover { background: var(--gray-50); color: var(--primary); }
+        #userMenu:hover .user-dropdown { display: block; }
+    </style>
 </head>
-<body>
+<body style="display:flex;flex-direction:column;min-height:100vh">
     <nav class="navbar">
         <div class="container">
-            <a href="/" class="logo">AUTO <span class="text-red">AKIN</span></a>
+            <a href="/" class="logo" id="siteLogo">AUTO <span class="text-red">AKIN</span></a>
             <div class="nav-links">
                 <a href="/parts">Yedek Parça</a>
                 <a href="/cart" style="position:relative" id="nav-cart-link">
                     Sepet
                     <span class="cart-badge" id="nav-cart-count" style="display:none">0</span>
                 </a>
+                
+                <div id="authLinks" style="display:flex;gap:1.5rem;align-items:center">
+                    <a href="/login">Giriş Yap</a>
+                </div>
+
+                <div id="userMenu" style="display:none;align-items:center;gap:0.5rem;cursor:pointer">
+                    <span id="userName" style="font-weight:600;font-size:0.85rem">Hesabım</span>
+                    <div class="user-dropdown">
+                        <a href="/profile">Profilim</a>
+                        <a href="/orders">Siparişlerim</a>
+                        <hr style="border:none;border-top:1px solid var(--gray-100);margin:4px 0">
+                        <button onclick="logout()">Çıkış Yap</button>
+                    </div>
+                </div>
+
                 <a href="/admin/login" class="btn-secondary btn-sm">Panel</a>
             </div>
         </div>
     </nav>
+
+    <script>
+    // Site ayarlarını yükle
+    let SiteSettings = {};
+    fetch('/api/settings.php').then(r=>r.json()).then(s => {
+        SiteSettings = s;
+        if(s.site_name) {
+            const logo = document.getElementById('siteLogo');
+            const parts = s.site_name.split(' ');
+            if(parts.length > 1) {
+                logo.innerHTML = `${parts[0]} <span class="text-red">${parts.slice(1).join(' ')}</span>`;
+            } else {
+                logo.textContent = s.site_name;
+            }
+        }
+    });
+
+    // Oturum kontrolü
+    function checkAuth() {
+        fetch('/api/auth.php').then(r=>r.json()).then(r => {
+            const authLinks = document.getElementById('authLinks');
+            const userMenu = document.getElementById('userMenu');
+            const userName = document.getElementById('userName');
+
+            if (r.loggedIn) {
+                authLinks.style.display = 'none';
+                userMenu.style.display = 'flex';
+                userName.textContent = r.customer.name.split(' ')[0];
+                window.CurrentUser = r.customer;
+            } else {
+                authLinks.style.display = 'flex';
+                userMenu.style.display = 'none';
+                window.CurrentUser = null;
+            }
+        });
+    }
+
+    function logout() {
+        fetch('/api/auth.php', {
+            method: 'POST',
+            headers: {'Content-Type':'application/json'},
+            body: JSON.stringify({action:'logout'})
+        }).then(()=>window.location.reload());
+    }
+
+    checkAuth();
+    </script>
