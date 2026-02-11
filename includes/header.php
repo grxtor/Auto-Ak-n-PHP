@@ -1,3 +1,6 @@
+<?php
+require_once dirname(__DIR__) . '/config/db.php';
+?>
 <!DOCTYPE html>
 <html lang="tr">
 <head>
@@ -5,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= $pageTitle ?? 'Auto Akın - Yedek Parça' ?></title>
     <meta name="description" content="<?= $pageDesc ?? 'Auto Akın - Otomotiv yedek parça dünyasında güvenilir adresiniz.' ?>">
-    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/style.css">
     <!-- FontAwesome for professional icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
@@ -29,54 +32,57 @@
 <body style="display:flex;flex-direction:column;min-height:100vh">
     <nav class="navbar">
         <div class="container">
-            <a href="/" class="logo" id="siteLogo">AUTO <span class="text-red">AKIN</span></a>
+            <a href="<?= BASE_URL ?>/" class="logo" id="siteLogo">AUTO <span class="text-red">AKIN</span></a>
             
-            <form action="/parts" method="GET" class="header-search">
+            <form action="<?= BASE_URL ?>/parts" method="GET" class="header-search">
                 <input type="text" name="search" placeholder="Yedek parça ara (Ürün adı veya OEM no)..." required>
                 <button type="submit" class="search-btn"><i class="fas fa-search"></i></button>
             </form>
 
             <div class="nav-links">
                 <div id="authLinks">
-                    <a href="/login"><i class="far fa-user"></i> Giriş Yap</a>
+                    <a href="<?= BASE_URL ?>/login"><i class="far fa-user"></i> Giriş Yap</a>
                 </div>
 
                 <div id="userMenu" style="display:none">
                     <span id="userName" style="font-weight:600;font-size:0.85rem"><i class="fas fa-user-circle"></i> Hesabım</span>
                     <div class="user-dropdown">
-                        <a href="/profile"><i class="fas fa-user-edit"></i> Profilim</a>
-                        <a href="/orders"><i class="fas fa-box"></i> Siparişlerim</a>
+                        <a href="<?= BASE_URL ?>/profile"><i class="fas fa-user-edit"></i> Profilim</a>
+                        <a href="<?= BASE_URL ?>/orders"><i class="fas fa-box"></i> Siparişlerim</a>
                         <hr style="border:none;border-top:1px solid var(--gray-100);margin:4px 0">
                         <button onclick="logout()"><i class="fas fa-sign-out-alt"></i> Çıkış Yap</button>
                     </div>
                 </div>
 
-                <a href="/cart" style="position:relative" id="nav-cart-link">
+                <a href="<?= BASE_URL ?>/cart" style="position:relative" id="nav-cart-link">
                     <i class="fas fa-shopping-cart"></i>
                     Sepetim
                     <span class="cart-badge" id="nav-cart-count" style="display:none">0</span>
                 </a>
 
-                <a href="/admin/login" class="btn-secondary btn-sm" style="padding: 4px 8px; border-radius: 6px; border: 1px solid #e2e8f0; font-size: 0.75rem; background: #f8fafc;">Panel</a>
+                <a href="<?= BASE_URL ?>/admin/login" class="btn-secondary btn-sm" style="padding: 4px 8px; border-radius: 6px; border: 1px solid #e2e8f0; font-size: 0.75rem; background: #f8fafc;">Panel</a>
             </div>
         </div>
     </nav>
 
     <div class="cat-nav">
         <div class="container">
-            <a href="/parts?marka=hyundai">Hyundai Parçaları</a>
-            <a href="/parts?marka=kia">Kia Parçaları</a>
-            <a href="/parts?category=motor-parcalari">Motor</a>
-            <a href="/parts?category=fren-sistemleri">Fren</a>
-            <a href="/parts?category=aydınlatma">Aydınlatma</a>
-            <a href="/parts?category=filtreler">Filtre</a>
-            <a href="/parts?category=kaporta">Kaporta</a>
-            <a href="/parts?category=elektrik-elektronik">Elektrik</a>
-            <a href="/contact" style="color:var(--primary)">Canlı Destek</a>
+            <a href="<?= BASE_URL ?>/parts?marka=hyundai">Hyundai Parçaları</a>
+            <a href="<?= BASE_URL ?>/parts?marka=kia">Kia Parçaları</a>
+            <a href="<?= BASE_URL ?>/parts?category=motor-parcalari">Motor</a>
+            <a href="<?= BASE_URL ?>/parts?category=fren-sistemleri">Fren</a>
+            <a href="<?= BASE_URL ?>/parts?category=aydınlatma">Aydınlatma</a>
+            <a href="<?= BASE_URL ?>/parts?category=filtreler">Filtre</a>
+            <a href="<?= BASE_URL ?>/parts?category=kaporta-parcalari">Kaporta</a>
+            <a href="<?= BASE_URL ?>/parts?category=elektrik-elektronik">Elektrik</a>
+            <a href="<?= BASE_URL ?>/contact" style="color:var(--primary)">Canlı Destek</a>
         </div>
     </div>
 
     <script>
+    // Global API Base Path
+    const API_BASE = '<?= BASE_URL ?>/api';
+
     // Cart helper
     const Cart = {
         get() { 
@@ -112,7 +118,7 @@
 
     // Site ayarlarını yükle
     let SiteSettings = {};
-    fetch('/api/settings.php').then(r=>r.json()).then(s => {
+    fetch(API_BASE + '/settings').then(r=>r.json()).then(s => {
         SiteSettings = s;
         if(s.site_name) {
             const logo = document.getElementById('siteLogo');
@@ -127,7 +133,7 @@
 
     // Oturum kontrolü
     function checkAuth() {
-        fetch('/api/auth.php').then(r=>r.json()).then(r => {
+        fetch(API_BASE + '/auth').then(r=>r.json()).then(r => {
             const authLinks = document.getElementById('authLinks');
             const userMenu = document.getElementById('userMenu');
             const userName = document.getElementById('userName');
@@ -146,7 +152,7 @@
     }
 
     function logout() {
-        fetch('/api/auth.php', {
+        fetch(API_BASE + '/auth', {
             method: 'POST',
             headers: {'Content-Type':'application/json'},
             body: JSON.stringify({action:'logout'})

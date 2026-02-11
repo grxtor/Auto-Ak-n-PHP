@@ -29,7 +29,7 @@ include 'includes/header.php';
     };
 
     function loadOrders() {
-        fetch('/api/admin/orders').then(r=>r.json()).then(orders => {
+        fetch(API_BASE + '/admin/orders').then(r=>r.json()).then(orders => {
             document.getElementById('ordLoading').style.display='none';
             if(!Array.isArray(orders)||orders.length===0){document.getElementById('ordEmpty').style.display='block';return;}
             document.getElementById('ordTable').style.display='table';
@@ -64,7 +64,7 @@ include 'includes/header.php';
     }
 
     function updateStatus(id, status) {
-        fetch('/api/admin/orders',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({id,status})})
+        fetch(API_BASE + '/admin/orders',{method:'PUT',headers:{'Content-Type':'application/json'},body:JSON.stringify({id,status})})
         .then(()=>loadOrders());
     }
 

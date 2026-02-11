@@ -33,7 +33,7 @@ include 'includes/header.php';
     let selectedCust = null;
 
     function loadCustomers() {
-        fetch('/api/admin/messages').then(r=>r.json()).then(custs => {
+        fetch(API_BASE + '/admin/messages').then(r=>r.json()).then(custs => {
             document.getElementById('custCount').textContent = `(${custs.length})`;
             document.getElementById('custList').innerHTML = custs.map(c => `
                 <div onclick="selectCustomer('${c.customer_identifier}')" style="padding:10px 16px;cursor:pointer;font-size:0.85rem;border-bottom:1px solid var(--gray-100);background:${selectedCust===c.customer_identifier?'#fef2f2':'transparent'};border-left:3px solid ${selectedCust===c.customer_identifier?'var(--primary)':'transparent'}">
@@ -59,7 +59,7 @@ include 'includes/header.php';
     }
 
     function loadChat(id) {
-        fetch('/api/messages.php?customerId='+id).then(r=>r.json()).then(msgs => {
+        fetch('/api/messages?customerId='+id).then(r=>r.json()).then(msgs => {
             const area = document.getElementById('chatArea');
             area.innerHTML = msgs.map(m => `
                 <div style="align-self:${m.sender==='admin'?'flex-end':'flex-start'};background:${m.sender==='admin'?'var(--secondary)':'var(--gray-100)'};color:${m.sender==='admin'?'white':'var(--foreground)'};padding:8px 12px;border-radius:10px;max-width:70%;font-size:0.85rem">
@@ -74,7 +74,7 @@ include 'includes/header.php';
         e.preventDefault();
         const input = document.getElementById('replyInput');
         if(!input.value.trim()||!selectedCust) return;
-        fetch('/api/admin/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({customerId:selectedCust,message:input.value})})
+        fetch(API_BASE + '/admin/messages',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({customerId:selectedCust,message:input.value})})
         .then(()=>{input.value='';loadChat(selectedCust);loadCustomers();});
     }
 

@@ -97,7 +97,7 @@ function handleAuth(e, action) {
         body.password = document.getElementById('regPass').value;
     }
 
-    fetch('/api/auth.php', {
+    fetch(API_BASE + '/auth.php', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(body)
@@ -107,7 +107,7 @@ function handleAuth(e, action) {
         if (r.success) {
             // Sepet doluysa sepete, değilse ana sayfaya
             const items = Cart.get();
-            window.location.href = items.length > 0 ? '/cart' : '/';
+            window.location.href = items.length > 0 ? '<?= BASE_URL ?>/cart' : '<?= BASE_URL ?>/';
         } else {
             err.textContent = r.error || 'Bir hata oluştu.';
             err.style.display = 'block';

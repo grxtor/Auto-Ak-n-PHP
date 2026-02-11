@@ -71,7 +71,7 @@ include 'includes/header.php';
 <script>
 
 function loadCustomers() {
-    fetch('/api/admin/customers.php')
+    fetch(API_BASE + '/admin/customers')
     .then(r => r.json())
     .then(data => {
         const list = document.getElementById('customerList');
@@ -103,7 +103,7 @@ function handleAddCustomer(e) {
     const res = document.getElementById('addResult');
     btn.disabled = true; btn.textContent = 'Kaydediliyor...';
     
-    fetch('/api/admin/customers.php?action=add', {
+    fetch(API_BASE + '/admin/customers?action=add', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
@@ -139,7 +139,7 @@ function handleAddCustomer(e) {
 
 function deleteCustomer(id) {
     if (!confirm('Bu müşteriyi silmek istediğinize emin misiniz?')) return;
-    fetch('/api/admin/customers.php?action=delete', {
+    fetch(API_BASE + '/admin/customers?action=delete', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({ id: id })

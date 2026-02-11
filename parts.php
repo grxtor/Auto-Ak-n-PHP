@@ -35,7 +35,7 @@ include 'includes/header.php';
 <script>
 // Araç seçici (header'dan kopyalanmış, filter prefix ile)
 function loadBrands(selectId) {
-    fetch('/api/brands.php').then(r=>r.json()).then(brands => {
+    fetch(API_BASE + '/brands').then(r=>r.json()).then(brands => {
         const sel = document.getElementById(selectId);
         brands.forEach(b => { const o = document.createElement('option'); o.value=b.id; o.textContent=b.name; sel.appendChild(o); });
     });
@@ -47,7 +47,7 @@ function loadModels(brandId, selectId) {
     const varSel = document.getElementById(vId);
     if(varSel){varSel.innerHTML='<option value="">Motor / Yıl</option>'; varSel.disabled=true;}
     if(!brandId) return;
-    fetch('/api/models.php?brandId='+brandId).then(r=>r.json()).then(models => {
+    fetch(API_BASE + '/models?brandId='+brandId).then(r=>r.json()).then(models => {
         models.forEach(m=>{const o=document.createElement('option');o.value=m.id;o.textContent=m.name;sel.appendChild(o);});
         sel.disabled=false;
     });
@@ -56,7 +56,7 @@ function loadVariants(modelId, selectId) {
     const sel = document.getElementById(selectId);
     sel.innerHTML = '<option value="">Motor / Yıl</option>'; sel.disabled = !modelId;
     if(!modelId) return;
-    fetch('/api/variants.php?modelId='+modelId).then(r=>r.json()).then(variants => {
+    fetch(API_BASE + '/variants?modelId='+modelId).then(r=>r.json()).then(variants => {
         variants.forEach(v=>{
             const o=document.createElement('option'); o.value=v.id;
             o.textContent=`${v.year_start}-${v.year_end||'...'} ${v.engine_type} ${v.fuel_type}`;
@@ -79,7 +79,7 @@ function fetchProducts() {
     document.getElementById('productGrid').style.display = 'none';
     document.getElementById('productsEmpty').style.display = 'none';
 
-    fetch('/api/products.php?' + params.toString()).then(r => r.json()).then(products => {
+    fetch(API_BASE + '/products?' + params.toString()).then(r => r.json()).then(products => {
         document.getElementById('productsLoading').style.display = 'none';
         if (!Array.isArray(products) || products.length === 0) {
             document.getElementById('productsEmpty').style.display = 'block';
@@ -110,7 +110,7 @@ function fetchProducts() {
 
 // Init
 loadBrands('filterBrand');
-fetch('/api/categories.php').then(r=>r.json()).then(cats => {
+fetch(API_BASE + '/categories').then(r=>r.json()).then(cats => {
     const sel = document.getElementById('filterCategory');
     cats.forEach(c => { const o = document.createElement('option'); o.value=c.slug; o.textContent=c.name; sel.appendChild(o); });
 });

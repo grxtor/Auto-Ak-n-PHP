@@ -44,7 +44,7 @@ include 'includes/header.php';
     let selBrand = null, selModel = null, brandsData = [], modelsData = [];
 
     function fetchBrands() {
-        fetch('/api/admin/brands.php').then(r=>r.json()).then(brands => {
+        fetch(API_BASE + '/admin/brands').then(r=>r.json()).then(brands => {
             brandsData = brands;
             document.getElementById('brandList').innerHTML = brands.map(b => `
                 <div class="vehicle-item ${selBrand==b.id?'active':''}" onclick="selectBrand(${b.id})">
@@ -73,7 +73,7 @@ include 'includes/header.php';
     }
 
     function fetchModels(brandId) {
-        fetch('/api/admin/models.php?brandId='+brandId).then(r=>r.json()).then(models => {
+        fetch(API_BASE + '/admin/models?brandId='+brandId).then(r=>r.json()).then(models => {
             modelsData = models;
             document.getElementById('modelList').innerHTML = models.map(m => `
                 <div class="vehicle-item ${selModel==m.id?'active':''}" onclick="selectModel(${m.id})">
@@ -113,7 +113,7 @@ include 'includes/header.php';
     }
 
     function fetchVariants(modelId) {
-        fetch('/api/admin/variants.php?modelId='+modelId).then(r=>r.json()).then(variants => {
+        fetch(API_BASE + '/admin/variants?modelId='+modelId).then(r=>r.json()).then(variants => {
             document.getElementById('variantList').innerHTML = variants.map(v => `
                 <div style="display:flex;justify-content:space-between;align-items:center;padding:8px;font-size:0.8rem;border-bottom:1px solid var(--gray-100)">
                     <div><strong>${v.year_start}-${v.year_end||'...'}</strong> ${v.engine_type}<br><small style="color:var(--gray-500)">${v.fuel_type} ${v.horsepower?'| '+v.horsepower+'HP':''}</small></div>
@@ -127,20 +127,20 @@ include 'includes/header.php';
         e.preventDefault();
         const name = document.getElementById('newBrand').value;
         if(!name) return;
-        fetch('/api/admin/brands.php',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name})})
+        fetch(API_BASE + '/admin/brands',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name})})
         .then(()=>{document.getElementById('newBrand').value='';fetchBrands();});
     }
     function addModel(e) {
         e.preventDefault();
         const name = document.getElementById('newModel').value;
         if(!name||!selBrand) return;
-        fetch('/api/admin/models.php',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({brand_id:selBrand,name})})
+        fetch(API_BASE + '/admin/models',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({brand_id:selBrand,name})})
         .then(()=>{document.getElementById('newModel').value='';fetchModels(selBrand);});
     }
     function addVariant(e) {
         e.preventDefault();
         if(!selModel) return;
-        fetch('/api/admin/variants.php',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
+        fetch(API_BASE + '/admin/variants',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
             model_id:selModel,
             year_start:document.getElementById('vYearStart').value,
             year_end:document.getElementById('vYearEnd').value||null,
@@ -149,9 +149,9 @@ include 'includes/header.php';
             horsepower:document.getElementById('vHP').value||null
         })}).then(()=>fetchVariants(selModel));
     }
-    function deleteBrand(id){if(!confirm('Bu markayı silmek istediğinize emin misiniz?'))return;fetch('/api/admin/brands.php?id='+id,{method:'DELETE'}).then(()=>{selBrand=null;fetchBrands();});}
-    function deleteModel(id){if(!confirm('Bu modeli silmek istediğinize emin misiniz?'))return;fetch('/api/admin/models.php?id='+id,{method:'DELETE'}).then(()=>{selModel=null;fetchModels(selBrand);});}
-    function deleteVariant(id){if(!confirm('Bu varyantı silmek istediğinize emin misiniz?'))return;fetch('/api/admin/variants.php?id='+id,{method:'DELETE'}).then(()=>fetchVariants(selModel));}
+    function deleteBrand(id){if(!confirm('Bu markayı silmek istediğinize emin misiniz?'))return;fetch(API_BASE + '/admin/brands?id='+id,{method:'DELETE'}).then(()=>{selBrand=null;fetchBrands();});}
+    function deleteModel(id){if(!confirm('Bu modeli silmek istediğinize emin misiniz?'))return;fetch(API_BASE + '/admin/models?id='+id,{method:'DELETE'}).then(()=>{selModel=null;fetchModels(selBrand);});}
+    function deleteVariant(id){if(!confirm('Bu varyantı silmek istediğinize emin misiniz?'))return;fetch(API_BASE + '/admin/variants?id='+id,{method:'DELETE'}).then(()=>fetchVariants(selModel));}
 
     fetchBrands();
     </script>

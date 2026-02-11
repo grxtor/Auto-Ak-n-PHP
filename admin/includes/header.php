@@ -17,7 +17,7 @@ $current_page = basename($_SERVER['PHP_SELF']);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= $pageTitle ?? 'Admin' ?> - Auto Akın Yönetimi</title>
-    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="<?= BASE_URL ?>/assets/css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         body{background:#f8fafc; display: flex; flex-direction: column; min-height: 100vh;}
@@ -40,17 +40,18 @@ $current_page = basename($_SERVER['PHP_SELF']);
 <body>
 <nav class="navbar admin-nav">
     <div class="container">
-        <a href="/admin/dashboard" class="logo" style="color:white;font-size:1.1rem">AUTO <span style="color:#ef4444">AKIN</span> <span style="font-size:0.6rem;color:#475569;background:#1e293b;padding:3px 8px;border-radius:4px;margin-left:6px">PANEL</span></a>
+        <a href="<?= BASE_URL ?>/admin/dashboard" class="logo" style="color:white;font-size:1.1rem">AUTO <span style="color:#ef4444">AKIN</span> <span style="font-size:0.6rem;color:#475569;background:#1e293b;padding:3px 8px;border-radius:4px;margin-left:6px">PANEL</span></a>
         <div class="nav-right">
-            <a href="/admin/dashboard" class="nav-link <?= $current_page == 'dashboard.php' ? 'active' : '' ?>">Dashboard</a>
-            <a href="/admin/products" class="nav-link <?= $current_page == 'products.php' ? 'active' : '' ?>">Urunler</a>
-            <a href="/admin/vehicles" class="nav-link <?= $current_page == 'vehicles.php' ? 'active' : '' ?>">Araclar</a>
-            <a href="/admin/orders" class="nav-link <?= $current_page == 'orders.php' ? 'active' : '' ?>">Siparisler</a>
-            <a href="/admin/messages" class="nav-link <?= $current_page == 'messages.php' ? 'active' : '' ?>">Mesajlar</a>
-            <a href="/admin/customers" class="nav-link <?= $current_page == 'customers.php' ? 'active' : '' ?>">Musteriler</a>
-            <a href="/admin/admins" class="nav-link <?= $current_page == 'admins.php' ? 'active' : '' ?>">Adminler</a>
+            <a href="<?= BASE_URL ?>/admin/dashboard" class="nav-link <?= $current_page == 'dashboard.php' ? 'active' : '' ?>">Dashboard</a>
+            <a href="<?= BASE_URL ?>/admin/products" class="nav-link <?= $current_page == 'products.php' ? 'active' : '' ?>">Urunler</a>
+            <a href="<?= BASE_URL ?>/admin/vehicles" class="nav-link <?= $current_page == 'vehicles.php' ? 'active' : '' ?>">Araclar</a>
+            <a href="<?= BASE_URL ?>/admin/orders" class="nav-link <?= $current_page == 'orders.php' ? 'active' : '' ?>">Siparisler</a>
+            <a href="<?= BASE_URL ?>/admin/messages" class="nav-link <?= $current_page == 'messages.php' ? 'active' : '' ?>">Mesajlar</a>
+            <a href="<?= BASE_URL ?>/admin/customers" class="nav-link <?= $current_page == 'customers.php' ? 'active' : '' ?>">Musteriler</a>
+            <a href="<?= BASE_URL ?>/admin/admins" class="nav-link <?= $current_page == 'admins.php' ? 'active' : '' ?>">Adminler</a>
+            <a href="<?= BASE_URL ?>/admin/settings" class="nav-link <?= $current_page == 'settings.php' ? 'active' : '' ?>">Ayarlar</a>
             <div style="width:1px;height:24px;background:#334155"></div>
-            <a href="/" target="_blank" class="nav-link" title="Siteyi Gör"><i class="fas fa-external-link-alt"></i></a>
+            <a href="<?= BASE_URL ?>/" target="_blank" class="nav-link" title="Siteyi Gör"><i class="fas fa-external-link-alt"></i></a>
             <button onclick="adminLogout()" style="border:1px solid #334155;background:transparent;color:#94a3b8;padding:5px 12px;border-radius:4px;font-size:0.78rem;cursor:pointer">Cikis</button>
         </div>
     </div>
@@ -64,14 +65,16 @@ $current_page = basename($_SERVER['PHP_SELF']);
 </div>
 
 <script>
+    const API_BASE = '<?= BASE_URL ?>/api';
+
 function adminLogout(){
-    fetch('/api/admin/auth.php',{
+    fetch('<?= BASE_URL ?>/api/admin/auth.php',{
         method:'POST',
         headers:{'Content-Type':'application/json'},
         body:JSON.stringify({action:'logout'})
     }).then(()=>{
         localStorage.removeItem('admin_auth');
-        window.location='/admin/login';
+        window.location='<?= BASE_URL ?>/admin/login';
     });
 }
 

@@ -56,7 +56,7 @@ include 'includes/header.php';
 <script>
 
 function loadAdmins() {
-    fetch('/api/admin/admins.php')
+    fetch(API_BASE + '/admin/admins')
     .then(r => r.json())
     .then(data => {
         const list = document.getElementById('adminList');
@@ -85,7 +85,7 @@ function handleAddAdmin(e) {
     const res = document.getElementById('addResult');
     btn.disabled = true; btn.textContent = 'Oluşturuluyor...';
     
-    fetch('/api/admin/admins.php?action=add', {
+    fetch(API_BASE + '/admin/admins?action=add', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
@@ -118,7 +118,7 @@ function handleAddAdmin(e) {
 
 function deleteAdmin(id) {
     if (!confirm('Bu admin hesabını silmek istediğinize emin misiniz?')) return;
-    fetch('/api/admin/admins.php?action=delete', {
+    fetch(API_BASE + '/admin/admins?action=delete', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({ id: id })

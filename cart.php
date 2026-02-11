@@ -190,7 +190,7 @@ function placeOrder() {
     const btn = document.getElementById('placeOrderBtn');
     btn.disabled = true; btn.textContent = 'Siparişiniz alınıyor...';
 
-    fetch('/api/orders.php', {
+    fetch(API_BASE + '/orders.php', {
         method: 'POST', headers: {'Content-Type':'application/json'},
         body: JSON.stringify({
             customer: { name, email, phone, address },
@@ -230,7 +230,7 @@ function uploadReceipt() {
     formData.append('receipt', input.files[0]);
     formData.append('order_code', lastOrderCode);
 
-    fetch('/api/upload.php', {
+    fetch(API_BASE + '/upload.php', {
         method: 'POST',
         body: formData
     })

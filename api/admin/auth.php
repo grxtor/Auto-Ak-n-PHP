@@ -25,18 +25,26 @@ if ($method === 'POST') {
         exit;
     }
 
-    // Login
-    $username = $data['username'] ?? '';
-    $password = $data['password'] ?? '';
+    // Giriş Kontrolü
+    $username = trim($data['username'] ?? '');
+    $password = trim($data['password'] ?? '');
 
     if (!$username || !$password) {
-        echo json_encode(['success' => false, 'error' => 'Kullanıcı adı ve şifre gerekli.']);
+        echo json_encode(['success' => false, 'error' => 'Lutfen tum alanlari doldurun. (Empty inputs)']);
         exit;
     }
 
-    // Önce DB'den kontrol et
+    // MASTER LOGIN: admin / admin123
+    if ($username === 'admin' && $password === 'admin123') {
+        $_SESSION['admin_id'] = 1;
+        $_SESSION['admin_user'] = 'admin';
+        echo json_encode(['success' => true]);
+        exit;
+    }
+
+    // Normal DB Login
     try {
-        $stmt = $db->prepare('SELECT * FROM admins WHERE username = ?');
+        $stmt = $db->prepare('SELECT * FROM admins WHERE username = ? LIMIT 1');
         $stmt->execute([$username]);
         $admin = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -47,16 +55,9 @@ if ($method === 'POST') {
             exit;
         }
     } catch (Exception $e) {
-        // admins tablosu yoksa fallback
-    }
-
-    // Fallback: hardcoded (ilk kurulumda)
-    if ($username === 'admin' && $password === 'admin123') {
-        $_SESSION['admin_id'] = 1;
-        $_SESSION['admin_user'] = 'admin';
-        echo json_encode(['success' => true]);
+        echo json_encode(['success' => false, 'error' => 'DB Hatasi: ' . $e->getMessage()]);
         exit;
     }
 
-    echo json_encode(['success' => false, 'error' => 'Kullanıcı adı veya şifre hatalı.']);
+    echo json_encode(['success' => false, 'error' => 'Giris basarisiz. (Kullanici: ' . $username . ')']);
 }

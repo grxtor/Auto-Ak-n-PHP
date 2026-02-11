@@ -64,7 +64,7 @@ include 'includes/header.php';
     }
 
     function loadProducts() {
-        fetch('/api/admin/products').then(r=>r.json()).then(products => {
+        fetch(API_BASE + '/admin/products').then(r=>r.json()).then(products => {
             document.getElementById('prodLoading').style.display='none';
             document.getElementById('prodTable').style.display='table';
             document.getElementById('prodBody').innerHTML = products.map(p => `
@@ -81,7 +81,7 @@ include 'includes/header.php';
 
     function addProduct(e) {
         e.preventDefault();
-        fetch('/api/admin/products?action=add', {
+        fetch(API_BASE + '/admin/products?action=add', {
             method:'POST', headers:{'Content-Type':'application/json'},
             body: JSON.stringify({
                 name: document.getElementById('pName').value,
@@ -101,7 +101,7 @@ include 'includes/header.php';
 
     function deleteProduct(id) {
         if(!confirm('Bu ürünü silmek istediğinize emin misiniz?')) return;
-        fetch('/api/admin/products?id='+id,{method:'DELETE'}).then(()=>loadProducts());
+        fetch(API_BASE + '/admin/products?id='+id,{method:'DELETE'}).then(()=>loadProducts());
     }
 
     function loadFormModels() {
@@ -110,7 +110,7 @@ include 'includes/header.php';
         sel.innerHTML='<option value="">Model</option>'; sel.disabled=!brandId;
         document.getElementById('variantCheckboxes').innerHTML='';
         if(!brandId) return;
-        fetch('/api/models.php?brandId='+brandId).then(r=>r.json()).then(models => {
+        fetch('/api/models?brandId='+brandId).then(r=>r.json()).then(models => {
             models.forEach(m=>{const o=document.createElement('option');o.value=m.id;o.textContent=m.name;sel.appendChild(o);});
             sel.disabled=false;
         });
@@ -120,7 +120,7 @@ include 'includes/header.php';
         const box = document.getElementById('variantCheckboxes');
         box.innerHTML='';
         if(!modelId) return;
-        fetch('/api/variants.php?modelId='+modelId).then(r=>r.json()).then(variants => {
+        fetch('/api/variants?modelId='+modelId).then(r=>r.json()).then(variants => {
             box.innerHTML = variants.map(v => {
                 const checked = selectedVariants.includes(v.id);
                 return `<label style="display:flex;align-items:center;gap:4px;padding:4px 10px;border-radius:4px;font-size:0.8rem;cursor:pointer;background:${checked?'#fee2e2':'white'};border:1px solid ${checked?'var(--primary)':'var(--gray-300)'}">
@@ -138,11 +138,11 @@ include 'includes/header.php';
     }
 
     // Init
-    fetch('/api/categories.php').then(r=>r.json()).then(cats => {
+    fetch('/api/categories').then(r=>r.json()).then(cats => {
         const s = document.getElementById('pCategory');
         cats.forEach(c=>{const o=document.createElement('option');o.value=c.id;o.textContent=c.name;s.appendChild(o);});
     });
-    fetch('/api/brands.php').then(r=>r.json()).then(brands => {
+    fetch('/api/brands').then(r=>r.json()).then(brands => {
         const s = document.getElementById('pBrandSel');
         brands.forEach(b=>{const o=document.createElement('option');o.value=b.id;o.textContent=b.name;s.appendChild(o);});
     });

@@ -61,7 +61,7 @@ include 'includes/header.php';
 document.getElementById('headerDesc').textContent = new Date().toLocaleDateString('tr-TR', {weekday:'long', year:'numeric', month:'long', day:'numeric'});
 
 function loadStats() {
-    fetch('/api/admin/settings.php?action=stats').then(r=>r.json()).then(data => {
+    fetch(API_BASE + '/admin/settings?action=stats').then(r=>r.json()).then(data => {
         document.getElementById('statProducts').textContent = data.products || 0;
         document.getElementById('statOrders').textContent = data.orders || 0;
         document.getElementById('statPending').textContent = data.pending || 0;
@@ -71,7 +71,7 @@ function loadStats() {
 
 function loadRecent() {
     // Son siparisler
-    fetch('/api/orders.php?limit=5').then(r=>r.json()).then(data => {
+    fetch('/api/orders?limit=5').then(r=>r.json()).then(data => {
         const wrap = document.getElementById('latestOrders');
         if(!data.length) { wrap.innerHTML = '<div style="padding:20px;color:var(--gray-400);font-size:0.8rem">Siparis yok</div>'; return; }
         wrap.innerHTML = data.map(o => `
