@@ -118,6 +118,8 @@ fetch('/api/categories.php').then(r=>r.json()).then(cats => {
 // URL params
 const urlP = new URLSearchParams(window.location.search);
 if (urlP.get('category')) document.getElementById('filterCategory').value = urlP.get('category');
+if (urlP.get('search')) document.getElementById('filterSearch').value = urlP.get('search');
+
 if (urlP.get('variant')) {
     // Variant set edilince ürünleri çek
     setTimeout(() => { document.getElementById('filterVariant').value = urlP.get('variant'); fetchProducts(); }, 500);

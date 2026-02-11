@@ -20,7 +20,12 @@
                 </div>
                 <div style="margin-bottom:1.5rem">
                     <label class="form-label">Şifre</label>
-                    <input class="form-input" type="password" id="password" required>
+                    <div style="position:relative">
+                        <input class="form-input" type="password" id="password" required>
+                        <button type="button" onclick="togglePassword()" style="position:absolute;right:12px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--gray-400);cursor:pointer;padding:4px">
+                            <i id="eyeIcon" class="fas fa-eye"></i>
+                        </button>
+                    </div>
                 </div>
                 <button type="submit" class="btn-primary" style="width:100%" id="loginBtn">Giriş Yap</button>
             </form>
@@ -28,7 +33,21 @@
         </div>
     </div>
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script>
+    function togglePassword() {
+        const input = document.getElementById('password');
+        const icon = document.getElementById('eyeIcon');
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.classList.remove('fa-eye');
+            icon.classList.add('fa-eye-slash');
+        } else {
+            input.type = 'password';
+            icon.classList.remove('fa-eye-slash');
+            icon.classList.add('fa-eye');
+        }
+    }
     // Sayfa acildiginda session kontrol et
     fetch('/api/admin/auth.php').then(r=>r.json()).then(r => {
         if (r.loggedIn) window.location.href = '/admin/dashboard';

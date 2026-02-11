@@ -1,16 +1,10 @@
-<!DOCTYPE html>
-<html lang="tr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ürün Yönetimi - Auto Akın</title>
-    <link rel="stylesheet" href="/assets/css/style.css">
-    <style>.admin-nav{background:#0f172a;border-bottom:none;padding:0}.admin-nav .container{display:flex;justify-content:space-between;align-items:center;height:56px}.admin-nav .nav-right{display:flex;align-items:center;gap:1.5rem}.admin-nav .nav-link{color:#94a3b8;font-size:0.82rem;transition:color 0.2s;font-weight:500}.admin-nav .nav-link:hover{color:white}.admin-nav .nav-link.active{color:white}</style>
-</head>
-<body style="background:#f8fafc">
-    <nav class="navbar admin-nav"><div class="container"><a href="/admin/dashboard" class="logo" style="color:white;font-size:1.1rem">AUTO <span style="color:#ef4444">AKIN</span> <span style="font-size:0.6rem;color:#475569;background:#1e293b;padding:3px 8px;border-radius:4px;margin-left:6px">PANEL</span></a><div class="nav-right"><a href="/admin/dashboard" class="nav-link">Dashboard</a><a href="/admin/products" class="nav-link active">Urunler</a><a href="/admin/vehicles" class="nav-link">Araclar</a><a href="/admin/orders" class="nav-link">Siparisler</a><a href="/admin/messages" class="nav-link">Mesajlar</a><a href="/admin/customers" class="nav-link">Musteriler</a><a href="/admin/admins" class="nav-link">Adminler</a><div style="width:1px;height:24px;background:#334155"></div><a href="/" target="_blank" class="nav-link">Siteyi Gor</a></div></div></nav>
+<?php
+$pageTitle = 'Ürün Yönetimi';
+$pageDesc = 'Sistemdeki tüm ürünleri ve stokları buradan görebilirsiniz.';
+include 'includes/header.php';
+?>
 
-    <div class="container" style="padding-top:2rem;padding-bottom:3rem">
+<div class="container" style="margin-top:-2.5rem;padding-bottom:3rem">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1.5rem">
             <h1 style="font-size:1.5rem;font-weight:800">Ürün <span class="text-red">Yönetimi</span></h1>
             <div style="display:flex;gap:8px">
