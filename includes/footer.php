@@ -110,7 +110,7 @@
     }
 
     function loadMessages() {
-        fetch(API_BASE + '/messages.php?customerId=' + getChatId())
+        fetch(API_BASE + '/messages?customerId=' + getChatId())
         .then(r => r.json()).then(msgs => {
             const el = document.getElementById('chatMessages');
             if (!Array.isArray(msgs) || msgs.length === 0) return;
@@ -125,7 +125,7 @@
         document.getElementById('chatMessages').style.display = 'none';
         document.getElementById('chatForm').style.display = 'none';
 
-        fetch(API_BASE + '/admin/messages.php').then(r => r.json()).then(customers => {
+        fetch(API_BASE + '/admin/messages').then(r => r.json()).then(customers => {
             const el = document.getElementById('adminCustomerList');
             if (!Array.isArray(customers) || customers.length === 0) {
                 el.innerHTML = '<div style="padding:4rem;text-align:center;color:var(--gray-400);font-size:0.9rem">Henüz aktif görüşme yok.</div>';
@@ -156,7 +156,7 @@
     }
 
     function loadAdminMessages(customerId) {
-        fetch(API_BASE + '/messages.php?customerId=' + customerId)
+        fetch(API_BASE + '/messages?customerId=' + customerId)
         .then(r => r.json()).then(msgs => {
             const el = document.getElementById('chatMessages');
             el.innerHTML = msgs.map(m => `<div class="chat-msg ${m.sender}">${m.message}</div>`).join('');
@@ -174,7 +174,7 @@
             { action: 'reply', message: msg, customerId: activeCustomer } : 
             { message: msg, customerId: getChatId() };
 
-        const url = isAdmin && activeCustomer ? API_BASE + '/admin/messages.php?action=reply' : API_BASE + '/messages.php';
+        const url = isAdmin && activeCustomer ? API_BASE + '/admin/messages?action=reply' : API_BASE + '/messages';
 
         fetch(url, {
             method: 'POST',

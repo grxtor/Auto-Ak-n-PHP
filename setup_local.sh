@@ -19,7 +19,7 @@ cp -R . "$TARGET_DIR/"
 
 # 3. Local veritabanı ayarlarını yapılandır
 echo "⚙️ Veritabanı ayarları düzenleniyor..."
-cat <<EOF > "$TARGET_DIR/config/db.php"
+cat <<EOF > "$TARGET_DIR/config/db"
 <?php
 define('DB_HOST', 'localhost');
 define('DB_NAME', 'autoakin_db');
@@ -55,5 +55,5 @@ echo "Şimdi şunları yap:"
 echo "1. XAMPP Panelden Apache ve MySQL'i başlat."
 echo "2. Tarayıcıdan http://localhost/phpmyadmin adresine git."
 echo "3. 'autoakin_db' adında bir veritabanı oluştur."
-echo "4. Şu adresi çalıştırarak tabloları kur: http://localhost/autoakin/init-db.php"
+echo "4. Şu adresi çalıştırarak tabloları kur: http://localhost/autoakin/init-db"
 echo "------------------------------------------------"

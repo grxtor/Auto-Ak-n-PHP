@@ -4,14 +4,13 @@ $pageDesc = 'Kayıtlı müşterilerin bilgilerini ve sipariş geçmişlerini gö
 include 'includes/header.php';
 ?>
 
-<div class="container" style="margin-top:-2.5rem;padding-bottom:3rem">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem">
-        <h1 style="font-size:1.5rem;font-weight:800">Müşteri <span class="text-red">Yönetimi</span></h1>
+<div class="container" style="margin-top:-3rem;padding-bottom:3rem">
+    <div style="display:flex;justify-content:flex-end;align-items:center;margin-bottom:2rem">
         <button class="btn-primary" onclick="showAddModal()">+ Yeni Müşteri</button>
     </div>
 
     <div class="card" style="overflow:hidden">
-        <table class="customer-table" style="width:100%;border-collapse:collapse">
+        <table class="table" style="width:100%;border-collapse:separate;border-spacing:0">
             <thead>
                 <tr>
                     <th>AD SOYAD</th>
@@ -71,7 +70,7 @@ include 'includes/header.php';
 <script>
 
 function loadCustomers() {
-    fetch(API_BASE + '/admin/customers')
+    fetch(API_BASE + '/admin/customers.php')
     .then(r => r.json())
     .then(data => {
         const list = document.getElementById('customerList');
@@ -103,7 +102,7 @@ function handleAddCustomer(e) {
     const res = document.getElementById('addResult');
     btn.disabled = true; btn.textContent = 'Kaydediliyor...';
     
-    fetch(API_BASE + '/admin/customers?action=add', {
+    fetch(API_BASE + '/admin/customers.php?action=add', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
@@ -139,7 +138,7 @@ function handleAddCustomer(e) {
 
 function deleteCustomer(id) {
     if (!confirm('Bu müşteriyi silmek istediğinize emin misiniz?')) return;
-    fetch(API_BASE + '/admin/customers?action=delete', {
+    fetch(API_BASE + '/admin/customers.php?action=delete', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({ id: id })

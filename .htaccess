@@ -22,12 +22,16 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME}.php -f
 RewriteRule ^(.+)$ $1.php [L,QSA]
 
+# Automatic RewriteBase detection attempt
+# RewriteBase /autoakin/ 
+
 # Eğer .php ile erişilirse, .php olmadan yönlendir (SEO temiz URL)
 # API ve Admin panel işlemlerini muaf tut (POST isteklerinin bozulmaması için)
+RewriteCond %{REQUEST_METHOD} GET
 RewriteCond %{REQUEST_URI} !/api/
 RewriteCond %{REQUEST_URI} !/admin/
-RewriteCond %{THE_REQUEST} /([^.]+)\.php [NC]
-RewriteRule ^ %1 [NC,L,R=301]
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /([^/]+/)*([^.]+)\.php\ HTTP/
+RewriteRule ^ %2 [NC,L,R=301]
 
 # ===== Güvenlik =====
 
@@ -40,7 +44,7 @@ RewriteRule ^ %1 [NC,L,R=301]
 # config klasörüne doğrudan erişimi engelle
 RewriteRule ^config/ - [F,L]
 
-# init-db.php'ye dışarıdan erişimi engelle (kurulum sonrası)
+# init-db'ye dışarıdan erişimi engelle (kurulum sonrası)
 # RewriteRule ^init-db\.php$ - [F,L]
 
 # ===== Performans =====
@@ -85,4 +89,4 @@ Options -Indexes
 AddDefaultCharset UTF-8
 
 # Hata sayfaları
-ErrorDocument 404 /index.php
+ErrorDocument 404 index.php

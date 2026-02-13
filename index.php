@@ -300,7 +300,7 @@ function oemSearch(e) {
     if(oem) window.location.href='<?= BASE_URL ?>/parts?search='+encodeURIComponent(oem);
 }
 function selectHomeBrand(slug) {
-    fetch(API_BASE + '/brands.php').then(r=>r.json()).then(brands => {
+    fetch(API_BASE + '/brands').then(r=>r.json()).then(brands => {
         const b = brands.find(x => x.slug === slug);
         if(b) { 
             document.getElementById('homeBrand').value = b.id; 
@@ -337,7 +337,15 @@ fetch(API_BASE + '/products').then(r=>r.json()).then(products => {
         grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;padding:4rem;background:white;border-radius:20px;border:1px dashed var(--gray-300);color:var(--gray-400)">Henüz ürün eklenmemiş.</div>`;
         return;
     }
-    grid.innerHTML = products.slice(0,8).map(p => `
+    grid.innerHTML = products.slice(0,8).map(p => {
+        const productData = JSON.stringify({
+            id: p.id,
+            name: p.name,
+            price: parseFloat(p.price),
+            image_url: p.image_url || ""
+        }).replace(/'/g, "&apos;");
+        
+        return `
         <div class="card product-card" style="border:none;box-shadow:0 10px 25px rgba(0,0,0,0.05);border-radius:20px;overflow:hidden">
             <div class="image" style="height:200px;background:#fff;display:flex;align-items:center;justify-content:center;padding:1.5rem">
                 ${p.image_url?`<img src="<?= BASE_URL ?>${p.image_url}" style="max-height:100%;max-width:100%;object-fit:contain">`:'<i class="fas fa-image" style="font-size:3rem;color:var(--gray-200)"></i>'}
@@ -348,11 +356,11 @@ fetch(API_BASE + '/products').then(r=>r.json()).then(products => {
                 <div style="font-size:0.75rem;color:var(--gray-400);margin-bottom:1.5rem;font-weight:600">OEM: ${p.oem_no||'-'}</div>
                 <div class="price-row" style="display:flex;justify-content:space-between;align-items:center">
                     <span class="price" style="font-size:1.25rem;font-weight:950;color:var(--secondary)">₺${parseFloat(p.price).toLocaleString('tr-TR',{minimumFractionDigits:2})}</span>
-                    <button class="btn-primary btn-xs" style="padding:8px 15px;border-radius:10px" onclick='Cart.add(${JSON.stringify({id:p.id,name:p.name,price:parseFloat(p.price),image_url:p.image_url||""})})'><i class="fas fa-plus"></i></button>
+                    <button class="btn-primary btn-xs" style="padding:8px 15px;border-radius:10px" onclick='Cart.add(JSON.parse(this.dataset.product))' data-product='${productData}'><i class="fas fa-plus"></i></button>
                 </div>
             </div>
         </div>
-    `).join('');
+    `}).join('');
 });
 
 loadBrands('homeBrand');

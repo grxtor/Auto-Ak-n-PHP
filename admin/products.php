@@ -9,7 +9,7 @@ include 'includes/header.php';
             <h1 style="font-size:1.5rem;font-weight:800">Ürün <span class="text-red">Yönetimi</span></h1>
             <div style="display:flex;gap:8px">
                 <button class="btn-primary" id="toggleFormBtn" onclick="toggleForm()">+ Yeni Ürün</button>
-                <a href="/admin/dashboard" class="btn-outline btn-sm">← Dashboard</a>
+                <a href="<?= BASE_URL ?>/admin/dashboard.php" class="btn-outline btn-sm">← Dashboard</a>
             </div>
         </div>
 
@@ -17,7 +17,7 @@ include 'includes/header.php';
         <div class="card" id="addForm" style="padding:1.5rem;margin-bottom:1.5rem;display:none">
             <h2 style="font-size:1rem;font-weight:700;margin-bottom:1rem">Yeni Ürün Ekle</h2>
             <form onsubmit="addProduct(event)">
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px">
+                <div class="form-grid">
                     <div><label class="form-label">Ürün Adı</label><input class="form-input" id="pName" required></div>
                     <div><label class="form-label">Parça Markası</label><input class="form-input" id="pBrand" placeholder="Bosch, SKF..."></div>
                     <div><label class="form-label">Fiyat (₺)</label><input class="form-input" type="number" step="0.01" id="pPrice" required></div>
@@ -54,7 +54,7 @@ include 'includes/header.php';
     </div>
 
     <script>
-    if(!localStorage.getItem('admin_auth'))window.location='/admin/login';
+    if(!localStorage.getItem('admin_auth'))window.location='<?= BASE_URL ?>/admin/login.php';
 
     let selectedVariants = [];
 
@@ -110,7 +110,7 @@ include 'includes/header.php';
         sel.innerHTML='<option value="">Model</option>'; sel.disabled=!brandId;
         document.getElementById('variantCheckboxes').innerHTML='';
         if(!brandId) return;
-        fetch('/api/models?brandId='+brandId).then(r=>r.json()).then(models => {
+        fetch(API_BASE + '/api/models?brandId='+brandId).then(r=>r.json()).then(models => {
             models.forEach(m=>{const o=document.createElement('option');o.value=m.id;o.textContent=m.name;sel.appendChild(o);});
             sel.disabled=false;
         });
@@ -120,7 +120,7 @@ include 'includes/header.php';
         const box = document.getElementById('variantCheckboxes');
         box.innerHTML='';
         if(!modelId) return;
-        fetch('/api/variants?modelId='+modelId).then(r=>r.json()).then(variants => {
+        fetch(API_BASE + '/api/variants?modelId='+modelId).then(r=>r.json()).then(variants => {
             box.innerHTML = variants.map(v => {
                 const checked = selectedVariants.includes(v.id);
                 return `<label style="display:flex;align-items:center;gap:4px;padding:4px 10px;border-radius:4px;font-size:0.8rem;cursor:pointer;background:${checked?'#fee2e2':'white'};border:1px solid ${checked?'var(--primary)':'var(--gray-300)'}">
@@ -138,11 +138,11 @@ include 'includes/header.php';
     }
 
     // Init
-    fetch('/api/categories').then(r=>r.json()).then(cats => {
+    fetch(API_BASE + '/api/categories').then(r=>r.json()).then(cats => {
         const s = document.getElementById('pCategory');
         cats.forEach(c=>{const o=document.createElement('option');o.value=c.id;o.textContent=c.name;s.appendChild(o);});
     });
-    fetch('/api/brands').then(r=>r.json()).then(brands => {
+    fetch(API_BASE + '/api/brands').then(r=>r.json()).then(brands => {
         const s = document.getElementById('pBrandSel');
         brands.forEach(b=>{const o=document.createElement('option');o.value=b.id;o.textContent=b.name;s.appendChild(o);});
     });

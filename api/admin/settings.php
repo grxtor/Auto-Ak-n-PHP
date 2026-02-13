@@ -14,8 +14,20 @@ if (!isset($_SESSION['admin_id'])) {
 
 $method = $_SERVER['REQUEST_METHOD'];
 
-// GET - tum ayarlari getir
+// GET - tum ayarlari getir veya istatistikleri cek
 if ($method === 'GET') {
+    $action = $_GET['action'] ?? '';
+    if ($action === 'stats') {
+        $stats = [
+            'products' => (int)$db->query("SELECT COUNT(*) FROM products")->fetchColumn(),
+            'orders' => (int)$db->query("SELECT COUNT(*) FROM orders")->fetchColumn(),
+            'pending' => (int)$db->query("SELECT COUNT(*) FROM orders WHERE status = 'pending'")->fetchColumn(),
+            'messages' => (int)$db->query("SELECT COUNT(*) FROM messages WHERE is_read = 0 AND sender = 'customer'")->fetchColumn()
+        ];
+        echo json_encode($stats);
+        exit;
+    }
+    
     $stmt = $db->query('SELECT * FROM settings ORDER BY setting_key');
     echo json_encode($stmt->fetchAll(PDO::FETCH_ASSOC));
     exit;

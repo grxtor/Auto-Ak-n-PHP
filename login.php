@@ -97,7 +97,7 @@ function handleAuth(e, action) {
         body.password = document.getElementById('regPass').value;
     }
 
-    fetch(API_BASE + '/auth.php', {
+    fetch(API_BASE + '/auth', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify(body)

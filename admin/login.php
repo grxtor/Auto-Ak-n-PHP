@@ -155,8 +155,8 @@
     }
 
     // Sayfa acildiginda session kontrol et
-    fetch(API_BASE + '/admin/auth').then(r=>r.json()).then(r => {
-        if (r.loggedIn) window.location.href = '<?= BASE_URL ?>/admin/dashboard';
+    fetch(API_BASE + '/admin/auth.php').then(r=>r.json()).then(r => {
+        if (r.loggedIn) window.location.href = '<?= BASE_URL ?>/admin/dashboard.php';
     });
 
     function handleLogin(e) {
@@ -166,7 +166,7 @@
         errEl.style.display = 'none';
         btn.disabled = true; btn.textContent = 'Doğrulanıyor...';
         
-        fetch(API_BASE + '/admin/auth', {
+        fetch(API_BASE + '/admin/auth.php', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
@@ -178,7 +178,7 @@
         .then(r => {
             if (r.success) {
                 localStorage.setItem('admin_auth', 'true');
-                window.location.href = '<?= BASE_URL ?>/admin/dashboard';
+                window.location.href = '<?= BASE_URL ?>/admin/dashboard.php';
             } else {
                 console.log('Login failed:', r);
                 errEl.textContent = r.error || 'Geçersiz kullanıcı adı veya şifre.';

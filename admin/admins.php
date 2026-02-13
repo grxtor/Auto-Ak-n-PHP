@@ -4,14 +4,13 @@ $pageDesc = 'Panel erişimi olan yönetici hesaplarını buradan yönetebilirsin
 include 'includes/header.php';
 ?>
 
-<div class="container" style="margin-top:-2.5rem;padding-bottom:3rem">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:2rem">
-        <h1 style="font-size:1.5rem;font-weight:800">Sistem <span class="text-red">Yöneticileri</span></h1>
+<div class="container" style="margin-top:-3rem;padding-bottom:3rem">
+    <div style="display:flex;justify-content:flex-end;align-items:center;margin-bottom:2rem">
         <button class="btn-primary" onclick="showAddModal()">+ Yeni Admin Ekle</button>
     </div>
 
     <div class="card" style="overflow:hidden;max-width:800px">
-        <table class="admin-table" style="width:100%;border-collapse:collapse">
+        <table class="table" style="width:100%;border-collapse:separate;border-spacing:0">
             <thead>
                 <tr>
                     <th>KULLANICI ADI</th>
@@ -56,7 +55,7 @@ include 'includes/header.php';
 <script>
 
 function loadAdmins() {
-    fetch(API_BASE + '/admin/admins')
+    fetch(API_BASE + '/admin/admins.php')
     .then(r => r.json())
     .then(data => {
         const list = document.getElementById('adminList');
@@ -85,7 +84,7 @@ function handleAddAdmin(e) {
     const res = document.getElementById('addResult');
     btn.disabled = true; btn.textContent = 'Oluşturuluyor...';
     
-    fetch(API_BASE + '/admin/admins?action=add', {
+    fetch(API_BASE + '/admin/admins.php?action=add', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
@@ -118,7 +117,7 @@ function handleAddAdmin(e) {
 
 function deleteAdmin(id) {
     if (!confirm('Bu admin hesabını silmek istediğinize emin misiniz?')) return;
-    fetch(API_BASE + '/admin/admins?action=delete', {
+    fetch(API_BASE + '/admin/admins.php?action=delete', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({ id: id })

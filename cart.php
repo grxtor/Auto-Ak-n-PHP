@@ -10,7 +10,7 @@ include 'includes/header.php';
         <div style="font-size:3rem;margin-bottom:1rem">&#128722;</div>
         <h2 style="font-size:1.15rem;font-weight:700;margin-bottom:0.5rem">Sepetiniz bo&#351;</h2>
         <p style="color:var(--gray-500);font-size:0.9rem;margin-bottom:1.5rem">Hen&uuml;z sepetinize &uuml;r&uuml;n eklemediniz.</p>
-        <a href="/parts" class="btn-primary" style="padding:12px 28px">&#128270; Par&ccedil;alara G&ouml;z At</a>
+        <a href="<?= BASE_URL ?>/parts" class="btn-primary" style="padding:12px 28px">&#128270; Par&ccedil;alara G&ouml;z At</a>
     </div>
 
     <div class="cart-grid" id="cartContent" style="display:none">
@@ -36,7 +36,7 @@ include 'includes/header.php';
             
             <div id="authCheck" style="padding:1rem;background:var(--gray-50);border-radius:var(--radius);margin-bottom:1rem;text-align:center">
                 <p style="font-size:0.8rem;color:var(--gray-500);margin-bottom:8px">Sipari&#351; i&ccedil;in giri&#351; yapman&#305;z &ouml;nerilir.</p>
-                <a href="/login" class="text-red" style="font-weight:700;font-size:0.85rem">Hesab&#305;n Var m&#305;? Giri&#351; Yap</a>
+                <a href="<?= BASE_URL ?>/login" class="text-red" style="font-weight:700;font-size:0.85rem">Hesab&#305;n Var m&#305;? Giri&#351; Yap</a>
             </div>
 
             <h4 style="font-size:0.9rem;font-weight:700;margin-bottom:0.75rem">Teslimat Bilgileri</h4>
@@ -95,7 +95,7 @@ include 'includes/header.php';
             </div>
         </div>
         <div style="margin-top:2rem">
-            <a href="/parts" class="btn-primary" style="display:inline-flex">Al&#305;&#351;veri&#351;e Devam Et</a>
+            <a href="<?= BASE_URL ?>/parts" class="btn-primary" style="display:inline-flex">Al&#305;&#351;veri&#351;e Devam Et</a>
         </div>
     </div>
 </div>
@@ -121,16 +121,16 @@ function renderCart() {
         document.getElementById('cartItems').innerHTML = items.map(item => `
             <div class="cart-item">
                 <div class="thumb">
-                    ${item.image_url ? `<img src="${item.image_url}" alt="${item.name}">` : '<div style="font-size:1.5rem;color:var(--gray-300)">&#128230;</div>'}
+                    ${item.image_url ? `<img src="<?= BASE_URL ?>${item.image_url}" alt="${item.name}">` : '<div style="font-size:1.5rem;color:var(--gray-300)">&#128230;</div>'}
                 </div>
                 <div style="flex:1">
                     <h3 style="font-size:0.95rem;font-weight:700">${item.name || 'İsimsiz Ürün'}</h3>
                     <div style="font-size:1rem;font-weight:800;margin:4px 0">&#8378;${((item.price || 0) * (item.quantity || 1)).toLocaleString('tr-TR',{minimumFractionDigits:2})}</div>
                     <div style="display:flex;align-items:center;gap:8px;margin-top:6px">
-                        <button class="btn-outline btn-xs" onclick="changeQty(${item.id},-1)">&minus;</button>
+                        <button class="btn-outline btn-xs" onclick="changeQty('${item.id}',-1)">&minus;</button>
                         <span style="font-weight:600;font-size:0.85rem">${item.quantity}</span>
-                        <button class="btn-outline btn-xs" onclick="changeQty(${item.id},1)">+</button>
-                        <button style="border:none;background:none;color:var(--primary);cursor:pointer;font-size:0.8rem;margin-left:auto" onclick="removeItem(${item.id})">Kaldır</button>
+                        <button class="btn-outline btn-xs" onclick="changeQty('${item.id}',1)">+</button>
+                        <button style="border:none;background:none;color:var(--primary);cursor:pointer;font-size:0.8rem;margin-left:auto" onclick="removeItem('${item.id}')">Kaldır</button>
                     </div>
                 </div>
             </div>
@@ -190,7 +190,7 @@ function placeOrder() {
     const btn = document.getElementById('placeOrderBtn');
     btn.disabled = true; btn.textContent = 'Siparişiniz alınıyor...';
 
-    fetch(API_BASE + '/orders.php', {
+    fetch(API_BASE + '/orders', {
         method: 'POST', headers: {'Content-Type':'application/json'},
         body: JSON.stringify({
             customer: { name, email, phone, address },
@@ -230,7 +230,7 @@ function uploadReceipt() {
     formData.append('receipt', input.files[0]);
     formData.append('order_code', lastOrderCode);
 
-    fetch(API_BASE + '/upload.php', {
+    fetch(API_BASE + '/upload', {
         method: 'POST',
         body: formData
     })

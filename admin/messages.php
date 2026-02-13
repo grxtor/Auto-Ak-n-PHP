@@ -4,8 +4,7 @@ $pageDesc = 'Müşterilerden gelen mesajları anlık olarak yanıtlayın.';
 include 'includes/header.php';
 ?>
 
-<div class="container" style="margin-top:-2.5rem;padding-bottom:3rem">
-        <h1 style="font-size:1.5rem;font-weight:800;margin-bottom:1.5rem">Canlı <span class="text-red">Destek</span></h1>
+<div class="container" style="margin-top:-3rem;padding-bottom:3rem">
 
         <div style="display:grid;grid-template-columns:280px 1fr;gap:1rem;height:500px">
             <!-- Müşteri Listesi -->
@@ -28,7 +27,7 @@ include 'includes/header.php';
     </div>
 
     <script>
-    if(!localStorage.getItem('admin_auth'))window.location='/admin/login';
+    if(!localStorage.getItem('admin_auth'))window.location='<?= BASE_URL ?>/admin/login.php';
 
     let selectedCust = null;
 
@@ -59,7 +58,7 @@ include 'includes/header.php';
     }
 
     function loadChat(id) {
-        fetch('/api/messages?customerId='+id).then(r=>r.json()).then(msgs => {
+        fetch(API_BASE + '/api/messages?customerId='+id).then(r=>r.json()).then(msgs => {
             const area = document.getElementById('chatArea');
             area.innerHTML = msgs.map(m => `
                 <div style="align-self:${m.sender==='admin'?'flex-end':'flex-start'};background:${m.sender==='admin'?'var(--secondary)':'var(--gray-100)'};color:${m.sender==='admin'?'white':'var(--foreground)'};padding:8px 12px;border-radius:10px;max-width:70%;font-size:0.85rem">

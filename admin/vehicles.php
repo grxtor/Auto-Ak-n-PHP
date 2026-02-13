@@ -4,8 +4,7 @@ $pageDesc = 'Uyumlu parça eşleştirmesi için marka, model ve motor varyantlar
 include 'includes/header.php';
 ?>
 
-<div class="container" style="margin-top:-2.5rem;padding-bottom:3rem">
-        <h1 style="font-size:1.5rem;font-weight:800;margin-bottom:1.5rem">Araç <span class="text-red">Yönetimi</span></h1>
+<div class="container" style="margin-top:-3rem;padding-bottom:3rem">
 
         <div class="vehicle-manager">
             <!-- Markalar -->
@@ -39,7 +38,7 @@ include 'includes/header.php';
     </div>
 
     <script>
-    if(!localStorage.getItem('admin_auth'))window.location='/admin/login';
+    if(!localStorage.getItem('admin_auth'))window.location='<?= BASE_URL ?>/admin/login.php';
 
     let selBrand = null, selModel = null, brandsData = [], modelsData = [];
 

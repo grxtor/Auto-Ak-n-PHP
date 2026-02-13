@@ -91,20 +91,30 @@ require_once dirname(__DIR__) . '/config/db.php';
         },
         set(items) { localStorage.setItem('autoakin_cart', JSON.stringify(items)); this.updateBadge(); },
         add(product) {
+            if (!product || !product.id) return;
             let items = this.get();
-            const idx = items.findIndex(i => i.id === product.id);
-            if (idx > -1) items[idx].quantity++;
-            else items.push({ ...product, quantity: 1 });
+            const idx = items.findIndex(i => String(i.id) === String(product.id));
+            if (idx > -1) {
+                items[idx].quantity++;
+            } else {
+                items.push({ ...product, quantity: 1 });
+            }
             this.set(items);
         },
-        remove(id) { this.set(this.get().filter(i => i.id !== id)); },
+        remove(id) { 
+            const items = this.get().filter(i => String(i.id) !== String(id));
+            this.set(items);
+        },
         updateQty(id, qty) {
             let items = this.get();
-            const idx = items.findIndex(i => i.id === id);
-            if (idx > -1) { items[idx].quantity = Math.max(1, qty); this.set(items); }
+            const idx = items.findIndex(i => String(i.id) === String(id));
+            if (idx > -1) { 
+                items[idx].quantity = Math.max(1, parseInt(qty) || 1); 
+                this.set(items); 
+            }
         },
-        count() { return this.get().reduce((sum, i) => sum + i.quantity, 0); },
-        total() { return this.get().reduce((sum, i) => sum + (i.price * i.quantity), 0); },
+        count() { return this.get().reduce((sum, i) => sum + (parseInt(i.quantity) || 0), 0); },
+        total() { return this.get().reduce((sum, i) => sum + (parseFloat(i.price) * (parseInt(i.quantity) || 1)), 0); },
         clear() { this.set([]); },
         updateBadge() {
             const badge = document.getElementById('nav-cart-count');

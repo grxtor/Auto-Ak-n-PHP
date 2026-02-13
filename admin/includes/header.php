@@ -5,11 +5,11 @@ require_once __DIR__ . '/../../config/db.php';
 
 // Auth Check
 if (!isset($_SESSION['admin_id'])) {
-    header('Location: /admin/login');
+    header('Location: ' . BASE_URL . '/admin/login.php');
     exit;
 }
 
-$current_page = basename($_SERVER['PHP_SELF']);
+$current_page = str_replace('.php', '', basename($_SERVER['PHP_SELF']));
 ?>
 <!DOCTYPE html>
 <html lang="tr">
@@ -42,14 +42,14 @@ $current_page = basename($_SERVER['PHP_SELF']);
     <div class="container">
         <a href="<?= BASE_URL ?>/admin/dashboard" class="logo" style="color:white;font-size:1.1rem">AUTO <span style="color:#ef4444">AKIN</span> <span style="font-size:0.6rem;color:#475569;background:#1e293b;padding:3px 8px;border-radius:4px;margin-left:6px">PANEL</span></a>
         <div class="nav-right">
-            <a href="<?= BASE_URL ?>/admin/dashboard" class="nav-link <?= $current_page == 'dashboard.php' ? 'active' : '' ?>">Dashboard</a>
-            <a href="<?= BASE_URL ?>/admin/products" class="nav-link <?= $current_page == 'products.php' ? 'active' : '' ?>">Urunler</a>
-            <a href="<?= BASE_URL ?>/admin/vehicles" class="nav-link <?= $current_page == 'vehicles.php' ? 'active' : '' ?>">Araclar</a>
-            <a href="<?= BASE_URL ?>/admin/orders" class="nav-link <?= $current_page == 'orders.php' ? 'active' : '' ?>">Siparisler</a>
-            <a href="<?= BASE_URL ?>/admin/messages" class="nav-link <?= $current_page == 'messages.php' ? 'active' : '' ?>">Mesajlar</a>
-            <a href="<?= BASE_URL ?>/admin/customers" class="nav-link <?= $current_page == 'customers.php' ? 'active' : '' ?>">Musteriler</a>
-            <a href="<?= BASE_URL ?>/admin/admins" class="nav-link <?= $current_page == 'admins.php' ? 'active' : '' ?>">Adminler</a>
-            <a href="<?= BASE_URL ?>/admin/settings" class="nav-link <?= $current_page == 'settings.php' ? 'active' : '' ?>">Ayarlar</a>
+            <a href="<?= BASE_URL ?>/admin/dashboard.php" class="nav-link <?= $current_page == 'dashboard' ? 'active' : '' ?>">Dashboard</a>
+            <a href="<?= BASE_URL ?>/admin/products.php" class="nav-link <?= $current_page == 'products' ? 'active' : '' ?>">Urunler</a>
+            <a href="<?= BASE_URL ?>/admin/vehicles.php" class="nav-link <?= $current_page == 'vehicles' ? 'active' : '' ?>">Araclar</a>
+            <a href="<?= BASE_URL ?>/admin/orders.php" class="nav-link <?= $current_page == 'orders' ? 'active' : '' ?>">Siparisler</a>
+            <a href="<?= BASE_URL ?>/admin/messages.php" class="nav-link <?= $current_page == 'messages' ? 'active' : '' ?>">Mesajlar</a>
+            <a href="<?= BASE_URL ?>/admin/customers.php" class="nav-link <?= $current_page == 'customers' ? 'active' : '' ?>">Musteriler</a>
+            <a href="<?= BASE_URL ?>/admin/admins.php" class="nav-link <?= $current_page == 'admins' ? 'active' : '' ?>">Adminler</a>
+            <a href="<?= BASE_URL ?>/admin/settings.php" class="nav-link <?= $current_page == 'settings' ? 'active' : '' ?>">Ayarlar</a>
             <div style="width:1px;height:24px;background:#334155"></div>
             <a href="<?= BASE_URL ?>/" target="_blank" class="nav-link" title="Siteyi Gör"><i class="fas fa-external-link-alt"></i></a>
             <button onclick="adminLogout()" style="border:1px solid #334155;background:transparent;color:#94a3b8;padding:5px 12px;border-radius:4px;font-size:0.78rem;cursor:pointer">Cikis</button>
@@ -74,7 +74,7 @@ function adminLogout(){
         body:JSON.stringify({action:'logout'})
     }).then(()=>{
         localStorage.removeItem('admin_auth');
-        window.location='<?= BASE_URL ?>/admin/login';
+        window.location='<?= BASE_URL ?>/admin/login.php';
     });
 }
 

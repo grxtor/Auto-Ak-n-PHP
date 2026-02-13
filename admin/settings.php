@@ -134,7 +134,7 @@ function showSection(id) {
 }
 
 function loadSettings() {
-    fetch('<?= BASE_URL ?>/api/admin/settings')
+    fetch('<?= BASE_URL ?>/api/admin/settings.php')
         .then(r => r.json())
         .then(data => {
             const form = document.getElementById('settingsForm');
@@ -155,7 +155,7 @@ function saveSettings(e) {
     const data = {};
     formData.forEach((value, key) => data[key] = value);
 
-    fetch('<?= BASE_URL ?>/api/admin/settings', {
+    fetch('<?= BASE_URL ?>/api/admin/settings.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)

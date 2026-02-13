@@ -416,8 +416,8 @@ try {
 </div>
 
 <p style="margin-top:20px;font-size:0.9rem">
-    <a href="/" style="color:#dc2626;font-weight:600">→ Siteye Git</a> &nbsp;|&nbsp;
-    <a href="/admin/login.php" style="color:#dc2626;font-weight:600">→ Admin Panele Git</a>
+    <a href="<?= BASE_URL ?>/" style="color:#dc2626;font-weight:600">→ Siteye Git</a> &nbsp;|&nbsp;
+    <a href="<?= BASE_URL ?>/admin/login" style="color:#dc2626;font-weight:600">→ Admin Panele Git</a>
 </p>
 </body>
 </html>

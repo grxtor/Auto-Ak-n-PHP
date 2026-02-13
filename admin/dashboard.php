@@ -17,17 +17,17 @@ include 'includes/header.php';
 </style>
 
 <div class="container" style="margin-top:-2.5rem;padding-bottom:3rem">
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:2rem">
+    <div class="stats-grid">
         <div class="card stat-card"><div class="stat-icon" style="background:#fee2e2;color:#dc2626">P</div><div><div class="stat-value" id="statProducts">-</div><div class="stat-label">Toplam Urun</div></div></div>
         <div class="card stat-card"><div class="stat-icon" style="background:#dbeafe;color:#2563eb">S</div><div><div class="stat-value" id="statOrders">-</div><div class="stat-label">Toplam Siparis</div></div></div>
         <div class="card stat-card"><div class="stat-icon" style="background:#fef3c7;color:#d97706">B</div><div><div class="stat-value" id="statPending">-</div><div class="stat-label">Bekleyen Siparis</div></div></div>
         <div class="card stat-card"><div class="stat-icon" style="background:#d1fae5;color:#059669">M</div><div><div class="stat-value" id="statMessages">-</div><div class="stat-label">Okunmamis Mesaj</div></div></div>
     </div>
 
-    <div style="display:grid;grid-template-columns:1fr 360px;gap:1.5rem">
+    <div class="dashboard-grid">
         <div>
             <div class="card" style="margin-bottom:1.5rem">
-                <div class="section-header">Son Siparisler <a href="/admin/orders" style="font-size:0.75rem;color:var(--primary)">Hepsini Gor</a></div>
+                <div class="section-header">Son Siparisler <a href="<?= BASE_URL ?>/admin/orders.php" style="font-size:0.75rem;color:var(--primary)">Hepsini Gor</a></div>
                 <div id="latestOrders"></div>
             </div>
             <div class="card">
@@ -44,7 +44,7 @@ include 'includes/header.php';
 
         <div>
             <div class="card" style="margin-bottom:1.5rem">
-                <div class="section-header">Son Mesajlar <a href="/admin/messages" style="font-size:0.75rem;color:var(--primary)">Hepsini Gor</a></div>
+                <div class="section-header">Son Mesajlar <a href="<?= BASE_URL ?>/admin/messages.php" style="font-size:0.75rem;color:var(--primary)">Hepsini Gor</a></div>
                 <div id="latestMessages"></div>
             </div>
             <div class="card" style="padding:20px">
@@ -71,7 +71,7 @@ function loadStats() {
 
 function loadRecent() {
     // Son siparisler
-    fetch('/api/orders?limit=5').then(r=>r.json()).then(data => {
+    fetch(API_BASE + '/api/orders?limit=5').then(r=>r.json()).then(data => {
         const wrap = document.getElementById('latestOrders');
         if(!data.length) { wrap.innerHTML = '<div style="padding:20px;color:var(--gray-400);font-size:0.8rem">Siparis yok</div>'; return; }
         wrap.innerHTML = data.map(o => `

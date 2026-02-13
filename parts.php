@@ -87,10 +87,18 @@ function fetchProducts() {
         }
         const grid = document.getElementById('productGrid');
         grid.style.display = 'grid';
-        grid.innerHTML = products.map(p => `
+        grid.innerHTML = products.map(p => {
+            const productData = JSON.stringify({
+                id: p.id,
+                name: p.name,
+                price: parseFloat(p.price),
+                image_url: p.image_url || ""
+            }).replace(/'/g, "&apos;");
+
+            return `
             <div class="card product-card">
                 <div class="image">
-                    ${p.image_url ? `<img src="${p.image_url}" alt="${p.name}">` : '<span style="color:var(--gray-300);font-size:0.8rem">Görsel Yok</span>'}
+                    ${p.image_url ? `<img src="<?= BASE_URL ?>${p.image_url}" alt="${p.name}">` : '<span style="color:var(--gray-300);font-size:0.8rem">Görsel Yok</span>'}
                 </div>
                 <div class="info">
                     ${p.category_name ? `<div class="category">${p.category_name}</div>` : ''}
@@ -99,12 +107,12 @@ function fetchProducts() {
                     ${p.part_brand ? `<div class="oem">Marka: ${p.part_brand}</div>` : ''}
                     <div class="price-row">
                         <span class="price">₺${parseFloat(p.price).toLocaleString('tr-TR',{minimumFractionDigits:2})}</span>
-                        <button class="btn-primary btn-xs" onclick='Cart.add(${JSON.stringify({id:p.id,name:p.name,price:parseFloat(p.price),image_url:p.image_url})})'>Sepete Ekle</button>
+                        <button class="btn-primary btn-xs" onclick='Cart.add(JSON.parse(this.dataset.product))' data-product='${productData}'>Sepete Ekle</button>
                     </div>
                     ${parseInt(p.stock) <= 0 ? '<div style="font-size:0.75rem;color:var(--primary);font-weight:600;margin-top:6px">Stokta Yok</div>' : ''}
                 </div>
             </div>
-        `).join('');
+        `}).join('');
     });
 }
 
